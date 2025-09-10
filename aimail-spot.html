@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AImail: Assistente AI per Email</title>
+    <meta name="description" content="Scopri AImail, l'assistente AI per gestire email con risposte automatiche e analisi delle performance.">
+    <meta name="keywords" content="AImail, assistente AI, email, produttività">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111827;
+            color: #e5e7eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #1f2937, #111827);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            padding: 20px;
+        }
+
+        .scene.active {
+            opacity: 1;
+        }
+
+        .content {
+            background: rgba(31, 41, 55, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #60a5fa;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #d1d5db;
+            line-height: 1.5;
+            max-width: 70%;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            text-align: left;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-right: 15px;
+            color: #34d399;
+        }
+
+        .feature-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #e5e7eb;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #34d399;
+            color: #ffffff;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="scene1" class="scene active">
+            <div class="content">
+                <h1 class="title">Rivoluziona le Tue Email</h1>
+                <p class="subtitle">AImail usa l'intelligenza artificiale per automatizzare le risposte e semplificare la gestione della tua posta.</p>
+            </div>
+        </div>
+
+        <div id="scene2" class="scene">
+            <div class="content">
+                <div class="feature-item">
+                    <span class="feature-icon">✨</span>
+                    <div>
+                        <p class="feature-text">Risposte Istantanee</p>
+                        <p class="feature-desc">Risposte automatiche personalizzate in un clic.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🚀</span>
+                    <div>
+                        <p class="feature-text">Template e Cronologia</p>
+                        <p class="feature-desc">Organizza email con template e accedi alla cronologia.</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <div>
+                        <p class="feature-text">Analisi Performance</p>
+                        <p class="feature-desc">Monitora l'efficienza della tua comunicazione.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="scene3" class="scene">
+            <div class="content">
+                <h1 class="title">Semplifica il Tuo Lavoro</h1>
+                <p class="subtitle">AImail è il tuo assistente AI per una gestione email professionale e senza stress.</p>
+                <a href="https://cobrapassa.github.io/aimail-landing/" class="cta-button">Scarica Ora</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scenes = document.querySelectorAll('.scene');
+        let currentSceneIndex = 0;
+
+        function showNextScene() {
+            scenes[currentSceneIndex].classList.remove('active');
+            currentSceneIndex = (currentSceneIndex + 1) % scenes.length;
+            scenes[currentSceneIndex].classList.add('active');
+        }
+
+        setInterval(showNextScene, 4000);
+    </script>
+</body>
+</html>
