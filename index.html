@@ -3,118 +3,146 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>AImail: Assistente AI Avanzato per Email</title>
-  <meta name="description" content="Scopri AImail, l'assistente AI che rivoluziona la gestione delle email con automazione intelligente, analisi avanzate e template personalizzati.">
-
-  <!-- JSON-LD -->
-  <script type="application/ld+json">{
-    "@context":"https://schema.org",
-    "@graph":[
-      {"@type":"WebSite","name":"AImail","url":"https://cobrapassa.github.io/aimail-spot/","description":"AImail: assistente AI per email."},
-      {"@type":"SoftwareApplication","name":"AImail","operatingSystem":"Web","applicationCategory":"BusinessApplication","url":"https://cobrapassa.github.io/aimail-landing/","description":"Assistente AI per email con template e analytics."}
-    ]
-  }</script>
-
+  <title>AImail — Demo</title>
+  <meta name="description" content="AImail — assistente AI per e-mail.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg-1:#071025; --bg-2:#0f172a; --panel:rgba(15,23,42,0.88);
-      --accent:#60a5fa; --accent-2:#34d399; --muted:#94a3b8; --text:#e6eef8;
-      --radius:18px; --container-max:1200px; --gap:16px;
+      --accent:#60a5fa;
+      --accent-2:#34d399;
+      --muted:#94a3b8;
+      --text:#e6eef8;
+      --panel: rgba(15,23,42,0.92);
+      --radius:16px;
+      --gap:14px;
       --transition: 420ms cubic-bezier(.22,1,.36,1);
+      /* --vh will be set by JS to 1% of the actual viewport height */
+      --vh: 1vh;
     }
 
-    /* ------ Reset & base ------ */
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%;}
+    /* Reset */
+    *,*::before,*::after{ box-sizing:border-box; }
+    html,body{ height:100%; margin:0; -webkit-text-size-adjust:100%; }
     body{
-      margin:0; font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      background:linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 100%);
+      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      -webkit-font-smoothing:antialiased;
+      background:linear-gradient(135deg,#071025 0%, #0f172a 100%);
       color:var(--text);
-      display:flex;align-items:center;justify-content:center; padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-      min-height:100svh; -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      min-height:100svh;
+      touch-action:manipulation;
     }
 
-    a{ color:inherit }
-
-    /* container: adapts to screen sizes */
+    /* Wrapper */
     .wrapper{
-      width:calc(100% - 2rem); max-width:var(--container-max); margin:24px auto; position:relative; display:block;
+      width:calc(100% - 2rem);
+      max-width:1200px;
+      margin:20px auto;
+      position:relative;
     }
 
-    /* Panel styles for desktop carousel */
+    /* Panel visual */
     .panel{
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:var(--radius); padding:clamp(18px, 2.5vw, 36px);
-      box-shadow:0 20px 60px rgba(2,6,23,0.6), inset 0 0 18px rgba(96,165,250,0.06);
-      overflow:hidden; backdrop-filter: blur(8px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      padding: clamp(12px, 2.5vw, 28px);
+      box-shadow: 0 20px 60px rgba(2,6,23,0.6), inset 0 0 18px rgba(96,165,250,0.04);
+      overflow:hidden;
+      backdrop-filter: blur(8px);
     }
 
-    /* Scenes overlay (for desktop) */
-    .scenes{ position:relative; height:clamp(420px,70vh,760px); }
-    .scene{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; opacity:0; pointer-events:none; transition:opacity var(--transition), transform var(--transition); }
+    /* Scenes container */
+    .scenes{
+      position:relative;
+      height: clamp(420px, 70vh, 760px);
+    }
+
+    /* Scene as overlay (desktop) */
+    .scene{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      text-align:center;
+      opacity:0;
+      pointer-events:none;
+      transition: opacity var(--transition), transform var(--transition);
+    }
     .scene.active{ opacity:1; pointer-events:auto; transform:none; }
 
-    .card{ width:100%; max-width:980px; margin:0 auto; color:var(--text); }
-    .title{ font-size:clamp(1.5rem,3.2vw,2.6rem); margin:0 0 12px; color:var(--accent); font-weight:700; line-height:1.06 }
-    .subtitle{ font-size:clamp(.95rem,1.6vw,1.25rem); color:#cbd5e1; margin:0 auto 16px; max-width:70ch }
+    /* Card inside scene */
+    .card{
+      width:100%;
+      max-width:980px;
+      background: linear-gradient(180deg, rgba(18,27,38,0.9), rgba(13,20,30,0.9));
+      border-radius:12px;
+      padding: clamp(16px, 2.8vw, 40px);
+      box-shadow: 0 8px 28px rgba(2,6,23,0.6);
+      color:var(--text);
+    }
+    .title{ font-size: clamp(1.4rem, 3.6vw, 2.6rem); margin:0 0 10px; color:var(--accent); line-height:1.06; }
+    .subtitle{ margin:0 auto 12px; color:#cbd5e1; font-size: clamp(.95rem,1.6vw,1.2rem); max-width:70ch; }
 
-    /* Feature grid for desktop */
-    .features{ display:grid; gap:12px; margin-top:8px }
-    @media(min-width:880px){ .features{ grid-template-columns: repeat(3,1fr); } .feature-item{ padding:18px } }
-    .feature-item{ background: rgba(255,255,255,0.02); border-radius:12px; display:flex; gap:12px; align-items:flex-start; padding:12px; }
-    .feature-icon{ width:44px; height:44px; flex-shrink:0; display:grid; place-items:center; font-size:20px; color:var(--accent-2) }
-    .feature-title{ font-weight:600; margin:0; font-size:1rem }
-    .feature-desc{ margin:6px 0 0 0; color:var(--muted); font-size:.95rem }
+    .features{ display:grid; gap:12px; margin-top:10px; }
+    .feature-item{ background: rgba(255,255,255,0.02); border-radius:12px; padding:16px; display:flex; gap:12px; align-items:flex-start; }
+    .feature-icon{ width:44px; height:44px; display:grid; place-items:center; font-size:20px; color:var(--accent-2) }
+    .feature-title{ margin:0; font-weight:600; font-size:1rem }
+    .feature-desc{ margin:6px 0 0; color:var(--muted); font-size:.95rem }
 
-    /* CTA */
-    .cta-row{ display:flex; justify-content:center; margin-top:18px }
-    .cta{ padding:12px 28px; border-radius:999px; border:none; background:linear-gradient(135deg,var(--accent-2), #10b981); color:white; font-weight:700; cursor:pointer; box-shadow:0 12px 30px rgba(52,211,153,0.12) }
+    .cta-row{ margin-top:16px; display:flex; justify-content:center; }
+    .cta{ background: linear-gradient(135deg,var(--accent-2), #10b981); color:white; border:none; padding:12px 26px; border-radius:999px; font-weight:700; cursor:pointer; box-shadow:0 12px 30px rgba(52,211,153,0.12); }
 
-    /* Controls for desktop (small) */
-    .controls{ position:absolute; bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:40 }
-    .dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.04) }
-    .dot.active{ background:var(--accent-2); box-shadow:0 6px 20px rgba(52,211,153,0.14) }
+    /* Desktop controls (dots + nav) */
+    .controls{ position:absolute; left:50%; transform:translateX(-50%); bottom:12px; display:flex; gap:10px; z-index:40; }
+    .dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.04); cursor:pointer; }
+    .dot.active{ background:var(--accent-2); box-shadow:0 6px 20px rgba(52,211,153,0.14); }
+    .nav-btn{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.36); color:var(--text); border:none; padding:10px; border-radius:10px; cursor:pointer; }
+    .nav-btn.left{ left:8px } .nav-btn.right{ right:8px }
 
-    .nav-btn{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.38); border:none; color:var(--text); padding:10px; border-radius:10px; cursor:pointer }
-    .nav-btn.left{ left:10px } .nav-btn.right{ right:10px }
+    /* --- MOBILE: stacked full-height sections using --vh robust technique --- */
+    @media (max-width: 880px){
+      .wrapper{ width:100%; margin:0; }
+      .panel{ box-shadow:none; border-radius:0; padding:0; background:transparent; }
+      /* Scenes become flow elements stacked one after another */
+      .scenes{ position:static; height:auto; }
+      .scene{ position:relative; opacity:1; pointer-events:auto; padding:0; margin:0; }
+      .scene + .scene{ margin-top:var(--gap); }
 
-    /* --- Mobile: stacked flow, full page scroll, each scene is a block --- */
-    @media(max-width:880px){
-      .wrapper{ margin:0; width:100%; }
-      .panel{ border-radius:0; padding:0; box-shadow:none; background:transparent }
-      .scenes{ position:static; height:auto }
-      .scene{ position:relative; opacity:1; pointer-events:auto; padding:18px 12px }
-      .scene + .scene{ margin-top:12px }
+      /* Each scene will take the full visible viewport height (real one) */
+      .scene.full-vh{ min-height: calc(var(--vh, 1vh) * 100); display:flex; align-items:center; justify-content:center; }
 
-      /* Make each card more compact and suitable for one-hand use */
-      .card{ background: linear-gradient(180deg, rgba(18,27,38,0.9), rgba(13,20,30,0.9)); border-radius:12px; padding:18px; max-width:100%; box-shadow:0 8px 30px rgba(2,6,23,0.6) }
-      .title{ font-size:1.2rem; margin-bottom:8px }
-      .subtitle{ font-size:0.98rem; margin-bottom:12px }
-      .features{ display:flex; flex-direction:column; gap:12px }
-      .feature-item{ min-height:120px; padding:14px; align-items:center }
-      .feature-title{ font-size:1rem }
-      .cta{ width:100%; padding:14px; font-size:1rem }
-
-      /* Hide desktop controls on mobile */
-      .controls, .nav-btn{ display:none }
+      /* Card sizing for mobile: center content, but allow internal scroll if content exceeds */
+      .card{ margin: 0 14px; padding:18px; max-width:100%; min-height: calc(var(--vh,1vh) * 0.6); display:flex; flex-direction:column; justify-content:center; overflow:auto; -webkit-overflow-scrolling:touch; }
+      .title{ font-size:1.18rem; margin-bottom:8px; }
+      .subtitle{ font-size:0.98rem; margin-bottom:12px; }
+      .features{ display:flex; flex-direction:column; gap:12px; }
+      .feature-item{ padding:14px; min-height: calc((var(--vh,1vh) * 0.8)/3); align-items:center; }
+      .cta{ width:100%; padding:14px; font-size:1rem; }
+      /* hide desktop controls on mobile */
+      .controls, .nav-btn{ display:none; }
     }
 
-    /* Animations: subtle but fancy on desktop, minimal on mobile */
-    .anim-slide-in{ animation: slideIn 600ms cubic-bezier(.22,1,.36,1) both }
-    @keyframes slideIn{ from{ transform: translateY(18px) scale(.99); opacity:0; filter:blur(4px) } to{ transform:none; opacity:1; filter:blur(0) } }
+    /* Animations */
+    .anim-slide{ animation: slideIn 600ms cubic-bezier(.22,1,.36,1) both; }
+    @keyframes slideIn{ from{ transform: translateY(18px) scale(.99); opacity:0 } to{ transform:none; opacity:1 } }
 
-    .anim-zoom{ animation: zoomIn 700ms cubic-bezier(.2,.9,.3,1) both }
+    .anim-zoom{ animation: zoomIn 700ms cubic-bezier(.2,.9,.3,1) both; }
     @keyframes zoomIn{ from{ transform:scale(.94) rotate(-2deg); opacity:0 } to{ transform:none; opacity:1 } }
 
-    @media (prefers-reduced-motion: reduce){ *{ transition:none!important; animation:none!important } }
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none!important; animation:none!important }
+    }
 
-    /* Accessibility helpers */
-    .sr-only{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden }
+    /* Accessibility helper */
+    .sr-only{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
 
   </style>
 </head>
@@ -123,50 +151,52 @@
     <div class="panel">
       <div class="scenes" id="scenes">
 
-        <!-- Scene A: Hero -->
-        <section class="scene" id="s-hero" data-index="0" aria-labelledby="hero-title">
-          <div class="card">
+        <!-- SCENE 0: HERO -->
+        <section class="scene full-vh" id="scene-0" data-index="0" aria-labelledby="hero-title">
+          <div class="card" role="article" aria-labelledby="hero-title">
             <h1 id="hero-title" class="title">Rivoluziona la Gestione delle Tue Email</h1>
             <p class="subtitle">AImail integra intelligenza artificiale avanzata per automatizzare risposte, ottimizzare flussi di lavoro e aumentare la produttività professionale.</p>
-            <div class="cta-row"><button class="cta" id="cta-hero">Scopri di più</button></div>
+            <div class="cta-row"><button class="cta" id="cta-learn">Scopri di più</button></div>
           </div>
         </section>
 
-        <!-- Scene B: Features -->
-        <section class="scene" id="s-features" data-index="1" aria-labelledby="features-title">
-          <div class="card">
-            <h2 id="features-title" class="title" style="color:var(--accent); font-size:1.4rem;">Funzionalità principali</h2>
-            <div class="features">
-              <article class="feature-item" aria-labelledby="f1-title">
+        <!-- SCENE 1: FEATURES -->
+        <section class="scene full-vh" id="scene-1" data-index="1" aria-labelledby="feat-title">
+          <div class="card" role="region" aria-labelledby="feat-title">
+            <h2 id="feat-title" class="title" style="color:var(--accent); font-size:1.3rem">Funzionalità principali</h2>
+            <div class="features" aria-hidden="false">
+
+              <article class="feature-item" aria-labelledby="f1">
                 <div class="feature-icon" aria-hidden="true">✨</div>
                 <div>
-                  <h3 id="f1-title" class="feature-title">Risposte Automatiche Istantanee</h3>
+                  <h3 id="f1" class="feature-title">Risposte Automatiche Istantanee</h3>
                   <p class="feature-desc">Genera risposte personalizzate e contestualizzate con un solo clic.</p>
                 </div>
               </article>
 
-              <article class="feature-item" aria-labelledby="f2-title">
+              <article class="feature-item" aria-labelledby="f2">
                 <div class="feature-icon" aria-hidden="true">🚀</div>
                 <div>
-                  <h3 id="f2-title" class="feature-title">Template & Cronologia</h3>
+                  <h3 id="f2" class="feature-title">Template & Cronologia</h3>
                   <p class="feature-desc">Crea template dinamici e accedi alla cronologia intelligente.</p>
                 </div>
               </article>
 
-              <article class="feature-item" aria-labelledby="f3-title">
+              <article class="feature-item" aria-labelledby="f3">
                 <div class="feature-icon" aria-hidden="true">📊</div>
                 <div>
-                  <h3 id="f3-title" class="feature-title">Analisi delle Performance</h3>
-                  <p class="feature-desc">Insight su engagement, tempi e produttività per migliorare la strategia email.</p>
+                  <h3 id="f3" class="feature-title">Analisi delle Performance</h3>
+                  <p class="feature-desc">Insight su engagement, tempi e produttività per migliorare la tua strategia.</p>
                 </div>
               </article>
+
             </div>
           </div>
         </section>
 
-        <!-- Scene C: CTA / final -->
-        <section class="scene" id="s-cta" data-index="2" aria-labelledby="cta-title">
-          <div class="card">
+        <!-- SCENE 2: CTA / FINAL -->
+        <section class="scene full-vh" id="scene-2" data-index="2" aria-labelledby="cta-title">
+          <div class="card" role="region" aria-labelledby="cta-title">
             <h2 id="cta-title" class="title">Semplifica il Tuo Workflow con Eleganza</h2>
             <p class="subtitle">AImail è l'assistente AI premium per professionisti esigenti: efficienza innovativa e risultati straordinari.</p>
             <div class="cta-row"><button class="cta" id="cta-download">Scarica AImail Ora</button></div>
@@ -175,7 +205,7 @@
 
       </div>
 
-      <!-- Desktop controls (appear only on non-touch/large screens) -->
+      <!-- Desktop controls -->
       <div class="controls" id="controls" aria-hidden="true"></div>
       <button class="nav-btn left" id="prev" aria-hidden="true">◀</button>
       <button class="nav-btn right" id="next" aria-hidden="true">▶</button>
@@ -184,130 +214,176 @@
 
   <script>
   (function(){
+    // Robust --vh handling: set CSS var to actual innerHeight * 0.01
+    function setVh(){
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', vh + 'px'); // store 1vh in px units
+    }
+    // init and update on resize/orientationchange/keyboard events
+    setVh();
+    let tResize = null;
+    window.addEventListener('resize', ()=>{ clearTimeout(tResize); tResize = setTimeout(setVh, 120); });
+    window.addEventListener('orientationchange', ()=> setTimeout(setVh, 120));
+
+    // Scenes and responsive behavior
     const scenes = Array.from(document.querySelectorAll('.scene'));
     const controls = document.getElementById('controls');
     const prevBtn = document.getElementById('prev');
     const nextBtn = document.getElementById('next');
-    const CTA_HERO = document.getElementById('cta-hero');
-    const CTA_DL = document.getElementById('cta-download');
+    const btnLearn = document.getElementById('cta-learn');
+    const btnDownload = document.getElementById('cta-download');
 
-    // Behavior: desktop/tablet -> carousel autoplay every 7s with controls
-    // Mobile (narrow screens) -> stacked vertical flow, natural page scrolling, no autoplay
-
-    const MOBILE_BREAK = 880; // px
+    const MOBILE_BREAK = 880;
     let isMobile = window.innerWidth <= MOBILE_BREAK;
-
-    // Autoplay config
-    const AUTOPLAY_INTERVAL = 7000; // 7s
+    const AUTOPLAY = 7000;
     let autoplayTimer = null;
-
-    // Respect user reduced-motion
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function buildControls(){
-      // create dots
+    // Build desktop dots
+    function buildDots(){
       controls.innerHTML = '';
-      scenes.forEach((s, i)=>{
-        const d = document.createElement('button'); d.className='dot'; d.setAttribute('aria-label', 'Slide '+(i+1));
-        d.addEventListener('click', ()=>{ goTo(i); resetAutoplay(); });
-        controls.appendChild(d);
-      });
-    }
-
-    function updateControls(index){
-      const dots = Array.from(controls.children);
-      dots.forEach((d,i)=> d.classList.toggle('active', i===index));
-    }
-
-    function setScene(index, opts={animate:true}){
       scenes.forEach((s,i)=>{
-        const active = i===index;
-        s.classList.toggle('active', active);
-        // add entrance animations on desktop
-        if(active && opts.animate && !reduced && !isMobile){
-          const card = s.querySelector('.card');
-          card.classList.add('anim-slide-in');
-          card.addEventListener('animationend', ()=> card.classList.remove('anim-slide-in'), { once:true });
-        }
+        const btn = document.createElement('button');
+        btn.className = 'dot';
+        btn.setAttribute('aria-label','Slide '+(i+1));
+        btn.addEventListener('click', ()=> { goTo(i); resetAutoplay(); });
+        controls.appendChild(btn);
       });
-      updateControls(index);
-      current = index;
+    }
+    function updateDots(idx){
+      const dots = Array.from(controls.children);
+      dots.forEach((d,i)=> d.classList.toggle('active', i===idx));
     }
 
     let current = 0;
-    function next(){ setScene((current+1) % scenes.length); }
-    function prev(){ setScene((current-1+scenes.length) % scenes.length); }
-    function goTo(i){ setScene(i % scenes.length); }
+    function showScene(index, opts={animate:true}){
+      index = index % scenes.length;
+      if(isMobile){
+        // Mobile: ensure all scenes visible (stacked). Scroll to target scene if requested.
+        // But do not hide others.
+        const target = scenes[index];
+        // Smooth scroll into view so user sees it if triggered from desktop control
+        if(target && typeof target.scrollIntoView === 'function'){
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        // Desktop: overlay mode - show only the selected scene
+        scenes.forEach((s,i)=>{
+          s.classList.toggle('active', i === index);
+          s.setAttribute('aria-hidden', i === index ? 'false' : 'true');
+          // animate entrance if allowed
+          if(i === index && opts.animate && !reduced){
+            const card = s.querySelector('.card');
+            card && card.classList.add('anim-slide');
+            if(card){
+              card.addEventListener('animationend', ()=> card.classList.remove('anim-slide'), { once:true });
+            }
+          }
+        });
+      }
+      current = index;
+      updateDots(current);
+    }
 
-    function startAutoplay(){ if(isMobile) return; stopAutoplay(); autoplayTimer = setInterval(next, AUTOPLAY_INTERVAL); }
-    function stopAutoplay(){ if(autoplayTimer){ clearInterval(autoplayTimer); autoplayTimer=null; } }
+    function next(){ showScene((current + 1) % scenes.length); }
+    function prev(){ showScene((current - 1 + scenes.length) % scenes.length); }
+    function goTo(i){ showScene(i); }
+
+    function startAutoplay(){
+      if(isMobile) return;
+      stopAutoplay();
+      autoplayTimer = setInterval(next, AUTOPLAY);
+    }
+    function stopAutoplay(){ if(autoplayTimer){ clearInterval(autoplayTimer); autoplayTimer = null; } }
     function resetAutoplay(){ stopAutoplay(); startAutoplay(); }
 
-    // Visibility pause
-    document.addEventListener('visibilitychange', ()=>{ document.hidden ? stopAutoplay() : startAutoplay(); });
+    // Visibility handling
+    document.addEventListener('visibilitychange', ()=> {
+      document.hidden ? stopAutoplay() : startAutoplay();
+    });
 
-    // Controls events
-    prevBtn && prevBtn.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
-    nextBtn && nextBtn.addEventListener('click', ()=>{ next(); resetAutoplay(); });
+    // Prev/Next buttons
+    prevBtn && prevBtn.addEventListener('click', ()=> { prev(); resetAutoplay(); });
+    nextBtn && nextBtn.addEventListener('click', ()=> { next(); resetAutoplay(); });
 
-    // CTA events
-    CTA_HERO && CTA_HERO.addEventListener('click', ()=>{ goTo(1); window.scrollTo({ top: 0, behavior: 'smooth' }); if(isMobile){ /* scroll into view handled by natural flow */ } });
-    CTA_DL && CTA_DL.addEventListener('click', ()=>{ window.open('https://cobrapassa.github.io/aimail-landing/', '_blank','noopener,noreferrer'); });
+    // CTA behavior
+    btnLearn && btnLearn.addEventListener('click', ()=> {
+      // on desktop, move to features; on mobile, scroll to features
+      goTo(1);
+      if(isMobile){
+        scenes[1].scrollIntoView({ behavior:'smooth', block:'start' });
+      }
+    });
+    btnDownload && btnDownload.addEventListener('click', ()=> {
+      window.open('https://cobrapassa.github.io/aimail-landing/','_blank','noopener,noreferrer');
+    });
 
-    // Responsive handling without reload
+    // Evaluate mode without reload (responsive)
     function evaluateMode(){
       const nowMobile = window.innerWidth <= MOBILE_BREAK;
-      if(nowMobile === isMobile) return; // nothing changed
+      if(nowMobile === isMobile) return;
       isMobile = nowMobile;
       if(isMobile){
-        // switch to stacked: ensure all scenes visible (CSS handles it). Stop autoplay and hide controls
-        stopAutoplay(); controls.setAttribute('aria-hidden','true'); prevBtn.setAttribute('aria-hidden','true'); nextBtn.setAttribute('aria-hidden','true');
-        // remove absolute positioning for scenes (CSS already adapts via media queries)
-        scenes.forEach(s=> s.classList.remove('active'));
+        // stacked: make all scenes "active" visually handled by CSS; stop autoplay
+        scenes.forEach(s => s.classList.add('active'));
+        controls.setAttribute('aria-hidden','true');
+        prevBtn && prevBtn.setAttribute('aria-hidden','true');
+        nextBtn && nextBtn.setAttribute('aria-hidden','true');
+        stopAutoplay();
       } else {
-        // desktop: show only current scene and start autoplay
-        controls.removeAttribute('aria-hidden'); prevBtn.removeAttribute('aria-hidden'); nextBtn.removeAttribute('aria-hidden');
-        setScene(current, {animate:false}); // show current
+        // desktop overlay: show current scene only
+        scenes.forEach((s,i)=> s.classList.toggle('active', i === current));
+        controls.removeAttribute('aria-hidden');
+        prevBtn && prevBtn.removeAttribute('aria-hidden');
+        nextBtn && nextBtn.removeAttribute('aria-hidden');
         startAutoplay();
       }
     }
 
-    // Initial setup
-    buildControls();
-    // Set aria-hidden states for accessibility
-    scenes.forEach((s, i)=> s.setAttribute('aria-hidden', isMobile ? 'false' : (i===0 ? 'false' : 'true')));
-
-    // If mobile: let CSS show stacked; if desktop: show only first and start autoplay
+    // initial setup
+    buildDots();
+    // Set initial states
     if(isMobile){
-      // ensure stacked mode: mark all scenes active so they render in flow (CSS set to opacity:1 on mobile)
-      scenes.forEach(s=> s.classList.add('active'));
-      controls.setAttribute('aria-hidden','true'); prevBtn.setAttribute('aria-hidden','true'); nextBtn.setAttribute('aria-hidden','true');
+      // stacked mode
+      scenes.forEach(s => s.classList.add('active'));
+      controls.setAttribute('aria-hidden','true');
+      prevBtn && prevBtn.setAttribute('aria-hidden','true');
+      nextBtn && nextBtn.setAttribute('aria-hidden','true');
     } else {
-      setScene(0); startAutoplay();
+      // overlay mode
+      showScene(0, {animate:false});
+      controls.removeAttribute('aria-hidden');
+      startAutoplay();
     }
+    updateDots(current);
 
-    // Update controls active state initially
-    updateControls(current);
-
-    // Re-evaluate on resize (debounced)
+    // Resize handler (debounced)
     let resizeTimer = null;
-    window.addEventListener('resize', ()=>{
+    window.addEventListener('resize', ()=> {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(()=> evaluateMode(), 180);
+      resizeTimer = setTimeout(()=> {
+        setVh(); // recalc real vh
+        evaluateMode();
+      }, 150);
     });
 
-    // Intersection-based subtle animations on mobile when elements enter viewport
-    if('IntersectionObserver' in window){
-      const io = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){ e.target.classList.add('anim-zoom'); io.unobserve(e.target); }
+    // Intersection small animations on mobile for visual polish (respected reduced-motion)
+    if('IntersectionObserver' in window && !reduced){
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if(en.isIntersecting){
+            en.target.classList.add('anim-zoom');
+            io.unobserve(en.target);
+          }
         });
-      }, { threshold:0.18 });
-      if(isMobile){ document.querySelectorAll('.feature-item, .card').forEach(el=> io.observe(el)); }
+      }, { threshold: 0.2 });
+      if(isMobile){
+        document.querySelectorAll('.card, .feature-item').forEach(el => io.observe(el));
+      }
     }
 
-    // Expose for debugging
-    window.__aimail = { next, prev, goTo, startAutoplay, stopAutoplay };
+    // expose for debug
+    window.__aimail = { goTo, next, prev, startAutoplay, stopAutoplay, isMobile: () => isMobile };
 
   })();
   </script>
