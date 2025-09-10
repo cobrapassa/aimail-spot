@@ -2,308 +2,313 @@
 <html lang="it">
 <head>
   <meta charset="utf-8" />
-  <!-- viewport-fit=cover utile per iPhone notch / safe-area -->
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>AImail: Assistente AI Avanzato per Email</title>
   <meta name="description" content="Scopri AImail, l'assistente AI che rivoluziona la gestione delle email con automazione intelligente, analisi avanzate e template personalizzati.">
-  <meta name="keywords" content="AImail, assistente AI email, automazione email, risposte AI, produttività professionale">
 
-  <!-- JSON-LD (ritagliato per brevità) -->
-  <script type="application/ld+json">
-  {
+  <!-- JSON-LD -->
+  <script type="application/ld+json">{
     "@context":"https://schema.org",
     "@graph":[
       {"@type":"WebSite","name":"AImail","url":"https://cobrapassa.github.io/aimail-spot/","description":"AImail: assistente AI per email."},
-      {"@type":"SoftwareApplication","name":"AImail","operatingSystem":"Web","applicationCategory":"BusinessApplication","url":"https://cobrapassa.github.io/aimail-landing/","description":"Assistente AI per email."}
+      {"@type":"SoftwareApplication","name":"AImail","operatingSystem":"Web","applicationCategory":"BusinessApplication","url":"https://cobrapassa.github.io/aimail-landing/","description":"Assistente AI per email con template e analytics."}
     ]
-  }
-  </script>
+  }</script>
 
-  <!-- Fonts preconnect -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg-1:#0f172a; --bg-2:#1e293b; --panel-1:rgba(30,41,59,0.95);
-      --accent:#60a5fa; --accent-2:#34d399; --muted:#94a3b8; --text:#e2e8f0;
-      --radius:18px; --container-max:1100px;
-      --mobile-padding: 14px;
+      --bg-1:#071025; --bg-2:#0f172a; --panel:rgba(15,23,42,0.88);
+      --accent:#60a5fa; --accent-2:#34d399; --muted:#94a3b8; --text:#e6eef8;
+      --radius:18px; --container-max:1200px; --gap:16px;
+      --transition: 420ms cubic-bezier(.22,1,.36,1);
     }
 
-    /* Base resets */
+    /* ------ Reset & base ------ */
     *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%; -webkit-text-size-adjust:100%}
+    html,body{height:100%;}
     body{
-      margin:0;
-      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      margin:0; font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
       background:linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 100%);
       color:var(--text);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      /* safe area padding for notch devices */
-      padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-      min-height:100svh; /* modern browsers: covers address-bar fluctuations */
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: rgba(0,0,0,0);
-      overscroll-behavior-y: none; /* avoid page bounce while interacting */
+      display:flex;align-items:center;justify-content:center; padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      min-height:100svh; -webkit-text-size-adjust:100%; -webkit-tap-highlight-color:transparent;
     }
 
-    body::before{
-      content:'';
-      position:fixed;
-      inset:0;
-      z-index:-1;
-      background:radial-gradient(circle, rgba(96,165,250,0.10) 0%, rgba(52,211,153,0.06) 100%);
-      opacity:0.6;
-    }
-    @media (prefers-reduced-motion: reduce){ body::before{animation:none} }
+    a{ color:inherit }
 
-    /* Container: use viewport units that behave better on mobile (svh) */
-    .container{
-      width:calc(100% - 2rem);
-      max-width:var(--container-max);
-      margin-inline:auto;
-      /* use a fixed visual height that adapts to mobile bars */
-      height: min(92vh, 100svh);
-      background: linear-gradient(135deg,var(--panel-1) 0%, rgba(15,23,42,0.95) 100%);
-      border-radius:var(--radius);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.55), inset 0 0 14px rgba(96,165,250,0.08);
-      overflow:hidden;
-      backdrop-filter: blur(8px);
-      display:grid;
-      place-items:center;
-      padding: clamp(12px, 2.6vw, 20px);
-      position:relative;
+    /* container: adapts to screen sizes */
+    .wrapper{
+      width:calc(100% - 2rem); max-width:var(--container-max); margin:24px auto; position:relative; display:block;
     }
 
-    /* Scenes stacked */
-    .scene{
-      position:absolute;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity 420ms cubic-bezier(.22,1,.36,1), transform 420ms cubic-bezier(.22,1,.36,1);
-      z-index:0;
-    }
-    .scene.active{ opacity:1; pointer-events:auto; z-index:2; }
-
-    /* Card content: allow vertical scrolling inside card on small screens */
-    .content{
-      width:100%;
-      max-width:920px;
-      /* limit height so card can scroll internally on small screens */
-      max-height: calc(100% - 28px);
-      background: rgba(18,27,38,0.68);
-      border-radius:12px;
-      padding: clamp(14px, 3vw, 36px);
-      box-shadow: 0 8px 30px rgba(96,165,250,0.14);
-      text-align:center;
-      color:var(--text);
-      word-break:break-word;
-      overflow-y:auto;
-      -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+    /* Panel styles for desktop carousel */
+    .panel{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius); padding:clamp(18px, 2.5vw, 36px);
+      box-shadow:0 20px 60px rgba(2,6,23,0.6), inset 0 0 18px rgba(96,165,250,0.06);
+      overflow:hidden; backdrop-filter: blur(8px);
     }
 
-    /* Reduce excessive padding when virtual keyboard opens:
-       Use smaller padding at very narrow viewports */
-    @media (max-height:500px) and (orientation:portrait){
-      .content{ padding: 12px; max-height: calc(100% - 10px); }
+    /* Scenes overlay (for desktop) */
+    .scenes{ position:relative; height:clamp(420px,70vh,760px); }
+    .scene{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:24px; opacity:0; pointer-events:none; transition:opacity var(--transition), transform var(--transition); }
+    .scene.active{ opacity:1; pointer-events:auto; transform:none; }
+
+    .card{ width:100%; max-width:980px; margin:0 auto; color:var(--text); }
+    .title{ font-size:clamp(1.5rem,3.2vw,2.6rem); margin:0 0 12px; color:var(--accent); font-weight:700; line-height:1.06 }
+    .subtitle{ font-size:clamp(.95rem,1.6vw,1.25rem); color:#cbd5e1; margin:0 auto 16px; max-width:70ch }
+
+    /* Feature grid for desktop */
+    .features{ display:grid; gap:12px; margin-top:8px }
+    @media(min-width:880px){ .features{ grid-template-columns: repeat(3,1fr); } .feature-item{ padding:18px } }
+    .feature-item{ background: rgba(255,255,255,0.02); border-radius:12px; display:flex; gap:12px; align-items:flex-start; padding:12px; }
+    .feature-icon{ width:44px; height:44px; flex-shrink:0; display:grid; place-items:center; font-size:20px; color:var(--accent-2) }
+    .feature-title{ font-weight:600; margin:0; font-size:1rem }
+    .feature-desc{ margin:6px 0 0 0; color:var(--muted); font-size:.95rem }
+
+    /* CTA */
+    .cta-row{ display:flex; justify-content:center; margin-top:18px }
+    .cta{ padding:12px 28px; border-radius:999px; border:none; background:linear-gradient(135deg,var(--accent-2), #10b981); color:white; font-weight:700; cursor:pointer; box-shadow:0 12px 30px rgba(52,211,153,0.12) }
+
+    /* Controls for desktop (small) */
+    .controls{ position:absolute; bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:10px; z-index:40 }
+    .dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.04) }
+    .dot.active{ background:var(--accent-2); box-shadow:0 6px 20px rgba(52,211,153,0.14) }
+
+    .nav-btn{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.38); border:none; color:var(--text); padding:10px; border-radius:10px; cursor:pointer }
+    .nav-btn.left{ left:10px } .nav-btn.right{ right:10px }
+
+    /* --- Mobile: stacked flow, full page scroll, each scene is a block --- */
+    @media(max-width:880px){
+      .wrapper{ margin:0; width:100%; }
+      .panel{ border-radius:0; padding:0; box-shadow:none; background:transparent }
+      .scenes{ position:static; height:auto }
+      .scene{ position:relative; opacity:1; pointer-events:auto; padding:18px 12px }
+      .scene + .scene{ margin-top:12px }
+
+      /* Make each card more compact and suitable for one-hand use */
+      .card{ background: linear-gradient(180deg, rgba(18,27,38,0.9), rgba(13,20,30,0.9)); border-radius:12px; padding:18px; max-width:100%; box-shadow:0 8px 30px rgba(2,6,23,0.6) }
+      .title{ font-size:1.2rem; margin-bottom:8px }
+      .subtitle{ font-size:0.98rem; margin-bottom:12px }
+      .features{ display:flex; flex-direction:column; gap:12px }
+      .feature-item{ min-height:120px; padding:14px; align-items:center }
+      .feature-title{ font-size:1rem }
+      .cta{ width:100%; padding:14px; font-size:1rem }
+
+      /* Hide desktop controls on mobile */
+      .controls, .nav-btn{ display:none }
     }
 
-    .title{
-      margin:0 0 .6rem 0;
-      color:var(--accent);
-      font-weight:700;
-      line-height:1.08;
-      font-size: clamp(1.35rem, 4vw, 2.1rem);
-      text-shadow:0 0 10px rgba(96,165,250,0.42);
-    }
-    .subtitle{
-      margin:0 auto 1rem;
-      color:#cbd5e1;
-      font-size: clamp(.9rem, 2.5vw, 1.05rem);
-      line-height:1.45;
-      max-width:64ch;
-    }
+    /* Animations: subtle but fancy on desktop, minimal on mobile */
+    .anim-slide-in{ animation: slideIn 600ms cubic-bezier(.22,1,.36,1) both }
+    @keyframes slideIn{ from{ transform: translateY(18px) scale(.99); opacity:0; filter:blur(4px) } to{ transform:none; opacity:1; filter:blur(0) } }
 
-    .features{ display:grid; gap:.8rem; margin-top:0.6rem; }
-    @media(min-width:880px){ .features{ grid-template-columns: repeat(3,1fr) } .content{ display:flex; gap:1rem; align-items:center; text-align:left } .left-block{ flex:1 } .right-block{ flex:1 } }
+    .anim-zoom{ animation: zoomIn 700ms cubic-bezier(.2,.9,.3,1) both }
+    @keyframes zoomIn{ from{ transform:scale(.94) rotate(-2deg); opacity:0 } to{ transform:none; opacity:1 } }
 
-    .feature-item{
-      display:flex; gap:.7rem; align-items:flex-start; padding:.9rem;
-      border-radius:10px; background:rgba(51,65,85,0.26);
-    }
-    .feature-icon{ width:36px; height:36px; display:flex; align-items:center; justify-content:center; color:var(--accent-2); flex-shrink:0; }
-    .feature-text{ margin:0; font-weight:600; font-size:clamp(.92rem,1.8vw,1.02rem); color:var(--text) }
-    .feature-desc{ margin:.25rem 0 0 0; color:var(--muted); font-size:clamp(.8rem,1.6vw,.92rem) }
+    @media (prefers-reduced-motion: reduce){ *{ transition:none!important; animation:none!important } }
 
-    /* CTA: full width on mobile for big tappable target */
-    .cta-button{
-      display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
-      padding: .7rem 1.6rem;
-      background:linear-gradient(135deg,var(--accent-2) 0%, #10b981 100%);
-      color:#fff; border:none; border-radius:999px; font-weight:700;
-      font-size:1rem; cursor:pointer; box-shadow:0 10px 30px rgba(52,211,153,0.18);
-      transition: transform .18s ease, box-shadow .18s ease;
-      min-width:160px;
-    }
-    .cta-button:hover{ transform: translateY(-3px) scale(1.02); }
-    @media (max-width:520px){ .cta-button{ width:100%; min-width:unset; padding:.9rem 1rem; font-size:1.02rem } }
+    /* Accessibility helpers */
+    .sr-only{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden }
 
-    /* Hide manual navigation to enforce autoplay-only */
-    .controls, .nav-btn { display:none !important; }
-
-    /* Animations (kept but reduced on mobile) */
-    .anim-slide { animation: slideIn 640ms cubic-bezier(.22,1,.36,1) both; }
-    @keyframes slideIn{ from{ transform:translateY(20px) scale(.985); opacity:0; filter:blur(6px);} to{ transform:translateY(0) scale(1); opacity:1; filter:blur(0);} }
-
-    @media (prefers-reduced-motion: reduce){
-      .anim-slide, .anim-zoom-rotate, .anim-clip, .anim-glass, .anim-exit { animation:none !important }
-      * { transition:none !important }
-    }
-
-    /* small, friendly touch targets */
-    button{ -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-
-    /* ensure content can be scrolled internally when needed */
-    .content::-webkit-scrollbar{ height:6px; width:6px }
-    .content::-webkit-scrollbar-thumb{ background: rgba(255,255,255,0.06); border-radius:6px }
   </style>
 </head>
 <body>
-  <a class="sr-only" href="#main-content">Salta al contenuto</a>
+  <div class="wrapper">
+    <div class="panel">
+      <div class="scenes" id="scenes">
 
-  <div class="container" role="region" aria-label="Presentazione AImail">
-    <!-- scenes -->
-    <section id="scene1" class="scene active" role="region" aria-labelledby="s1-title" aria-hidden="false" data-index="0">
-      <div class="content" id="main-content">
-        <div class="left-block">
-          <h1 id="s1-title" class="title">Rivoluziona la Gestione delle Tue Email</h1>
-          <p class="subtitle">AImail integra intelligenza artificiale avanzata per automatizzare risposte, ottimizzare flussi di lavoro e aumentare la produttività professionale. Lascia che l'AI trasformi la tua inbox in un potente strumento di efficienza.</p>
-        </div>
-      </div>
-    </section>
+        <!-- Scene A: Hero -->
+        <section class="scene" id="s-hero" data-index="0" aria-labelledby="hero-title">
+          <div class="card">
+            <h1 id="hero-title" class="title">Rivoluziona la Gestione delle Tue Email</h1>
+            <p class="subtitle">AImail integra intelligenza artificiale avanzata per automatizzare risposte, ottimizzare flussi di lavoro e aumentare la produttività professionale.</p>
+            <div class="cta-row"><button class="cta" id="cta-hero">Scopri di più</button></div>
+          </div>
+        </section>
 
-    <section id="scene2" class="scene" role="region" aria-labelledby="s2-title" aria-hidden="true" data-index="1">
-      <div class="content">
-        <h2 id="s2-title" class="title" style="font-size:1.15rem; color:var(--accent); margin-bottom:.6rem">Funzionalità principali</h2>
-        <div class="features" aria-hidden="false">
-          <div class="feature-item" tabindex="0">
-            <div class="feature-icon" aria-hidden="true">
-              <!-- svg -->
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 7h4l-3 6h3l-4 8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
-            <div>
-              <p class="feature-text">Risposte Automatiche Istantanee</p>
-              <p class="feature-desc">Genera risposte personalizzate e contestualizzate con un solo clic, per una comunicazione fluida e professionale.</p>
+        <!-- Scene B: Features -->
+        <section class="scene" id="s-features" data-index="1" aria-labelledby="features-title">
+          <div class="card">
+            <h2 id="features-title" class="title" style="color:var(--accent); font-size:1.4rem;">Funzionalità principali</h2>
+            <div class="features">
+              <article class="feature-item" aria-labelledby="f1-title">
+                <div class="feature-icon" aria-hidden="true">✨</div>
+                <div>
+                  <h3 id="f1-title" class="feature-title">Risposte Automatiche Istantanee</h3>
+                  <p class="feature-desc">Genera risposte personalizzate e contestualizzate con un solo clic.</p>
+                </div>
+              </article>
+
+              <article class="feature-item" aria-labelledby="f2-title">
+                <div class="feature-icon" aria-hidden="true">🚀</div>
+                <div>
+                  <h3 id="f2-title" class="feature-title">Template & Cronologia</h3>
+                  <p class="feature-desc">Crea template dinamici e accedi alla cronologia intelligente.</p>
+                </div>
+              </article>
+
+              <article class="feature-item" aria-labelledby="f3-title">
+                <div class="feature-icon" aria-hidden="true">📊</div>
+                <div>
+                  <h3 id="f3-title" class="feature-title">Analisi delle Performance</h3>
+                  <p class="feature-desc">Insight su engagement, tempi e produttività per migliorare la strategia email.</p>
+                </div>
+              </article>
             </div>
           </div>
+        </section>
 
-          <div class="feature-item" tabindex="0">
-            <div class="feature-icon" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="3" y="4" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.2"/>
-                <rect x="7" y="8" width="14" height="12" rx="2" stroke="currentColor" stroke-width="1.2"/>
-                <line x1="6" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div>
-              <p class="feature-text">Gestione Avanzata Template & Cronologia</p>
-              <p class="feature-desc">Crea e organizza template dinamici, accedi alla cronologia intelligente per mantenere coerenza e velocità.</p>
-            </div>
+        <!-- Scene C: CTA / final -->
+        <section class="scene" id="s-cta" data-index="2" aria-labelledby="cta-title">
+          <div class="card">
+            <h2 id="cta-title" class="title">Semplifica il Tuo Workflow con Eleganza</h2>
+            <p class="subtitle">AImail è l'assistente AI premium per professionisti esigenti: efficienza innovativa e risultati straordinari.</p>
+            <div class="cta-row"><button class="cta" id="cta-download">Scarica AImail Ora</button></div>
           </div>
+        </section>
 
-          <div class="feature-item" tabindex="0">
-            <div class="feature-icon" aria-hidden="true">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect x="3" y="12" width="3" height="7" rx="0.5" fill="currentColor"/>
-                <rect x="9" y="8" width="3" height="11" rx="0.5" fill="currentColor"/>
-                <rect x="15" y="4" width="3" height="15" rx="0.5" fill="currentColor"/>
-                <path d="M3 20h18" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <div>
-              <p class="feature-text">Analisi Dettagliata delle Performance</p>
-              <p class="feature-desc">Ottieni insight su engagement, tempi di risposta e produttività per raffinare la tua strategia email.</p>
-            </div>
-          </div>
-        </div>
       </div>
-    </section>
 
-    <section id="scene3" class="scene" role="region" aria-labelledby="s3-title" aria-hidden="true" data-index="2">
-      <div class="content">
-        <div class="left-block">
-          <h2 id="s3-title" class="title" style="font-size:1.15rem; margin-bottom:.4rem">Semplifica il Tuo Workflow con Eleganza</h2>
-          <p class="subtitle" style="text-align:left">AImail è l'assistente AI premium per professionisti esigenti: efficienza innovativa, design intuitivo e risultati straordinari. Trasforma la tua routine quotidiana oggi.</p>
-        </div>
-
-        <div class="right-block" style="display:flex; align-items:center; justify-content:center; margin-top:10px;">
-          <button class="cta-button" id="cta" aria-label="Scarica AImail ora">Scarica AImail Ora</button>
-        </div>
-      </div>
-    </section>
+      <!-- Desktop controls (appear only on non-touch/large screens) -->
+      <div class="controls" id="controls" aria-hidden="true"></div>
+      <button class="nav-btn left" id="prev" aria-hidden="true">◀</button>
+      <button class="nav-btn right" id="next" aria-hidden="true">▶</button>
+    </div>
   </div>
 
   <script>
   (function(){
     const scenes = Array.from(document.querySelectorAll('.scene'));
-    let current = 0;
-    const intervalMs = 7000; // fixed interval: 7s
-    let timer = null;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const controls = document.getElementById('controls');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const CTA_HERO = document.getElementById('cta-hero');
+    const CTA_DL = document.getElementById('cta-download');
 
-    function setScene(index){
+    // Behavior: desktop/tablet -> carousel autoplay every 7s with controls
+    // Mobile (narrow screens) -> stacked vertical flow, natural page scrolling, no autoplay
+
+    const MOBILE_BREAK = 880; // px
+    let isMobile = window.innerWidth <= MOBILE_BREAK;
+
+    // Autoplay config
+    const AUTOPLAY_INTERVAL = 7000; // 7s
+    let autoplayTimer = null;
+
+    // Respect user reduced-motion
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function buildControls(){
+      // create dots
+      controls.innerHTML = '';
+      scenes.forEach((s, i)=>{
+        const d = document.createElement('button'); d.className='dot'; d.setAttribute('aria-label', 'Slide '+(i+1));
+        d.addEventListener('click', ()=>{ goTo(i); resetAutoplay(); });
+        controls.appendChild(d);
+      });
+    }
+
+    function updateControls(index){
+      const dots = Array.from(controls.children);
+      dots.forEach((d,i)=> d.classList.toggle('active', i===index));
+    }
+
+    function setScene(index, opts={animate:true}){
       scenes.forEach((s,i)=>{
-        const active = i === index;
+        const active = i===index;
         s.classList.toggle('active', active);
-        s.setAttribute('aria-hidden', active ? 'false' : 'true');
-        // small entrance animation only when scene becomes active
-        if(active && !prefersReduced){
-          const el = s.querySelector('.content');
-          if(el){
-            el.classList.add('anim-slide');
-            el.addEventListener('animationend', ()=> el.classList.remove('anim-slide'), { once: true });
-          }
+        // add entrance animations on desktop
+        if(active && opts.animate && !reduced && !isMobile){
+          const card = s.querySelector('.card');
+          card.classList.add('anim-slide-in');
+          card.addEventListener('animationend', ()=> card.classList.remove('anim-slide-in'), { once:true });
         }
       });
-      current = index % scenes.length;
+      updateControls(index);
+      current = index;
     }
 
-    function nextScene(){ setScene((current + 1) % scenes.length); }
+    let current = 0;
+    function next(){ setScene((current+1) % scenes.length); }
+    function prev(){ setScene((current-1+scenes.length) % scenes.length); }
+    function goTo(i){ setScene(i % scenes.length); }
 
-    function startTimer(){
-      stopTimer();
-      timer = setInterval(nextScene, intervalMs);
+    function startAutoplay(){ if(isMobile) return; stopAutoplay(); autoplayTimer = setInterval(next, AUTOPLAY_INTERVAL); }
+    function stopAutoplay(){ if(autoplayTimer){ clearInterval(autoplayTimer); autoplayTimer=null; } }
+    function resetAutoplay(){ stopAutoplay(); startAutoplay(); }
+
+    // Visibility pause
+    document.addEventListener('visibilitychange', ()=>{ document.hidden ? stopAutoplay() : startAutoplay(); });
+
+    // Controls events
+    prevBtn && prevBtn.addEventListener('click', ()=>{ prev(); resetAutoplay(); });
+    nextBtn && nextBtn.addEventListener('click', ()=>{ next(); resetAutoplay(); });
+
+    // CTA events
+    CTA_HERO && CTA_HERO.addEventListener('click', ()=>{ goTo(1); window.scrollTo({ top: 0, behavior: 'smooth' }); if(isMobile){ /* scroll into view handled by natural flow */ } });
+    CTA_DL && CTA_DL.addEventListener('click', ()=>{ window.open('https://cobrapassa.github.io/aimail-landing/', '_blank','noopener,noreferrer'); });
+
+    // Responsive handling without reload
+    function evaluateMode(){
+      const nowMobile = window.innerWidth <= MOBILE_BREAK;
+      if(nowMobile === isMobile) return; // nothing changed
+      isMobile = nowMobile;
+      if(isMobile){
+        // switch to stacked: ensure all scenes visible (CSS handles it). Stop autoplay and hide controls
+        stopAutoplay(); controls.setAttribute('aria-hidden','true'); prevBtn.setAttribute('aria-hidden','true'); nextBtn.setAttribute('aria-hidden','true');
+        // remove absolute positioning for scenes (CSS already adapts via media queries)
+        scenes.forEach(s=> s.classList.remove('active'));
+      } else {
+        // desktop: show only current scene and start autoplay
+        controls.removeAttribute('aria-hidden'); prevBtn.removeAttribute('aria-hidden'); nextBtn.removeAttribute('aria-hidden');
+        setScene(current, {animate:false}); // show current
+        startAutoplay();
+      }
     }
-    function stopTimer(){ if(timer){ clearInterval(timer); timer = null; } }
 
-    // Pause when page hidden (save CPU / battery)
-    document.addEventListener('visibilitychange', ()=>{ document.hidden ? stopTimer() : startTimer(); });
+    // Initial setup
+    buildControls();
+    // Set aria-hidden states for accessibility
+    scenes.forEach((s, i)=> s.setAttribute('aria-hidden', isMobile ? 'false' : (i===0 ? 'false' : 'true')));
 
-    // CTA
-    const cta = document.getElementById('cta');
-    if(cta) cta.addEventListener('click', ()=>{ window.open('https://cobrapassa.github.io/aimail-landing/', '_blank', 'noopener,noreferrer'); });
+    // If mobile: let CSS show stacked; if desktop: show only first and start autoplay
+    if(isMobile){
+      // ensure stacked mode: mark all scenes active so they render in flow (CSS set to opacity:1 on mobile)
+      scenes.forEach(s=> s.classList.add('active'));
+      controls.setAttribute('aria-hidden','true'); prevBtn.setAttribute('aria-hidden','true'); nextBtn.setAttribute('aria-hidden','true');
+    } else {
+      setScene(0); startAutoplay();
+    }
 
-    // init
-    setScene(0);
-    setTimeout(()=> startTimer(), 500);
+    // Update controls active state initially
+    updateControls(current);
 
-    // ensure that when content is long, user can still scroll inside the card:
-    // we keep internal scrolling enabled (CSS .content { overflow-y:auto })
-    // but we removed manual scene-swiping/controls as requested.
+    // Re-evaluate on resize (debounced)
+    let resizeTimer = null;
+    window.addEventListener('resize', ()=>{
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(()=> evaluateMode(), 180);
+    });
+
+    // Intersection-based subtle animations on mobile when elements enter viewport
+    if('IntersectionObserver' in window){
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('anim-zoom'); io.unobserve(e.target); }
+        });
+      }, { threshold:0.18 });
+      if(isMobile){ document.querySelectorAll('.feature-item, .card').forEach(el=> io.observe(el)); }
+    }
+
+    // Expose for debugging
+    window.__aimail = { next, prev, goTo, startAutoplay, stopAutoplay };
+
   })();
   </script>
 </body>
