@@ -3,184 +3,215 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AImail - Assistent AI</title>
+  <title>AImail: Assistente AI Avanzato per Email</title>
+  <meta name="description" content="Scopri AImail, l'assistente AI che rivoluziona la gestione delle email con automazione intelligente, analisi avanzate e template personalizzati.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #0b1120;
-      --card: #111a2e;
-      --accent: #3b82f6;
-      --text: #e2e8f0;
-    }
     * {box-sizing: border-box; margin: 0; padding: 0;}
     body {
-      font-family: system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Poppins', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.6;
       overflow-x: hidden;
-      line-height: 1.5;
     }
-    section.scene {
+
+    section {
       width: 100%;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      padding: clamp(1rem, 5vw, 3rem);
+      justify-content: center;
+      padding: 4rem 1.5rem;
+      scroll-snap-align: start;
     }
-    .content, .features, .cta {
-      background: var(--card);
-      border-radius: 1.5rem;
-      padding: clamp(1.5rem, 4vw, 3rem);
-      max-width: 800px;
-      width: 100%;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
-    h1, h2 {
-      color: var(--accent);
-      margin-bottom: 1rem;
+
+    /* Hero Section */
+    .hero {
+      background: radial-gradient(circle at top left, #1e293b, #0f172a);
       text-align: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
     }
-    p {margin-bottom: 1rem; text-align: center;}
-    .btn {
-      display: inline-block;
-      background: #10b981;
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      color: #60a5fa;
+      text-shadow: 0 0 25px rgba(96, 165, 250, 0.8);
+    }
+    .hero p {
+      max-width: 650px;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: #cbd5e1;
+      margin: 0 auto;
+    }
+    .hero .cta {
+      margin-top: 2rem;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg,#34d399,#10b981);
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
       color: #fff;
-      padding: 0.8rem 1.5rem;
-      border-radius: 9999px;
-      font-weight: bold;
       text-decoration: none;
-      transition: background .3s;
+      box-shadow: 0 8px 25px rgba(52,211,153,0.4);
+      transition: transform .3s ease, box-shadow .3s ease;
     }
-    .btn:hover {background: #059669;}
+    .hero .cta:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(52,211,153,0.6);
+    }
 
     /* Features */
+    .features {
+      background: linear-gradient(135deg,#0f172a,#1e293b);
+      flex-direction: column;
+      text-align: center;
+    }
+    .features h2 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      margin-bottom: 3rem;
+      color: #60a5fa;
+      text-shadow: 0 0 20px rgba(96,165,250,0.6);
+    }
     .features-grid {
       display: grid;
-      gap: 1rem;
+      gap: 2rem;
+      width: 100%;
+      max-width: 1000px;
     }
-    .feature-item {
-      background: rgba(255,255,255,0.05);
-      border-radius: 1rem;
-      padding: 1rem;
+    @media(min-width: 768px) {
+      .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
-    .feature-item h3 {margin-bottom: 0.5rem; color: var(--text);}
+    .feature-card {
+      background: rgba(30,41,59,0.9);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(96,165,250,0.4);
+    }
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 1rem;
+      fill: #34d399;
+      filter: drop-shadow(0 0 6px rgba(52,211,153,0.6));
+    }
+    .feature-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: .5rem;
+      color: #e2e8f0;
+    }
+    .feature-desc {
+      font-size: 1rem;
+      color: #94a3b8;
+    }
 
-    /* Desktop carousel */
-    @media (min-width: 1024px) {
-      body.carousel-active {
-        overflow: hidden;
-      }
-      #carousel {
-        position: relative;
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-      }
-      .scene {
-        position: absolute;
-        top: 0; left: 0;
-        opacity: 0;
-        transform: translateX(100%);
-        transition: opacity 1s ease, transform 1s ease;
-      }
-      .scene.active {
-        opacity: 1;
-        transform: translateX(0);
-        z-index: 2;
-      }
-      .scene.prev {
-        opacity: 0;
-        transform: translateX(-100%);
-        z-index: 1;
-      }
+    /* CTA */
+    .cta-section {
+      background: linear-gradient(135deg,#1e293b,#0f172a);
+      text-align: center;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+    }
+    .cta-section h2 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 700;
+      color: #34d399;
+      text-shadow: 0 0 25px rgba(52,211,153,0.8);
+    }
+    .cta-section p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      color: #cbd5e1;
+    }
+    .cta-section .cta {
+      margin-top: 2rem;
+      padding: 1rem 2.8rem;
+      background: linear-gradient(135deg,#60a5fa,#3b82f6);
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 8px 25px rgba(96,165,250,0.4);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .cta-section .cta:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(96,165,250,0.6);
     }
 
-    /* Mobile scroll layout */
-    @media (max-width: 1023px) {
-      #carousel {
-        display: block;
-      }
-      .scene {
-        position: static;
-        opacity: 1 !important;
-        transform: none !important;
-      }
+    /* Animazioni on scroll */
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
+    }
+    [data-animate].visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
-  <div id="carousel">
-    <!-- Hero -->
-    <section class="scene active" id="scene1">
-      <div class="content">
-        <h1>Scopri di più</h1>
-        <p>L’assistente AI che rivoluziona la tua email.</p>
-        <a href="#" class="btn">Scopri di più</a>
-      </div>
-    </section>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Rivoluziona la tua gestione Email</h1>
+    <p>AImail integra intelligenza artificiale avanzata per automatizzare risposte, ottimizzare i flussi di lavoro e aumentare la produttività.</p>
+    <a href="#features" class="cta">Scopri di più</a>
+  </section>
 
-    <!-- Features -->
-    <section class="scene" id="scene2">
-      <div class="features">
-        <h2>Funzionalità principali</h2>
-        <div class="features-grid">
-          <div class="feature-item">
-            <h3>Risposte Automatiche Istantanee</h3>
-            <p>Genera risposte personalizzate e contestualizzate con un clic.</p>
-          </div>
-          <div class="feature-item">
-            <h3>Template & Cronologia</h3>
-            <p>Crea template dinamici e accedi alla cronologia intelligente.</p>
-          </div>
-          <div class="feature-item">
-            <h3>Analisi delle Performance</h3>
-            <p>Insight su engagement e produttività per migliorare la tua strategia.</p>
-          </div>
-        </div>
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <h2 data-animate>Funzionalità principali</h2>
+    <div class="features-grid">
+      <div class="feature-card" data-animate>
+        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+        <h3 class="feature-title">Risposte Automatiche</h3>
+        <p class="feature-desc">Genera risposte personalizzate e contestuali in un attimo.</p>
       </div>
-    </section>
+      <div class="feature-card" data-animate>
+        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 13h2v-2H3v2zm4 0h14v-2H7v2z"/></svg>
+        <h3 class="feature-title">Template & Cronologia</h3>
+        <p class="feature-desc">Organizza template dinamici e accedi alla cronologia intelligente.</p>
+      </div>
+      <div class="feature-card" data-animate>
+        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 17h18v2H3zm0-7h18v2H3zm0-7h18v2H3z"/></svg>
+        <h3 class="feature-title">Analisi Performance</h3>
+        <p class="feature-desc">Ottieni insight su engagement, tempi e produttività.</p>
+      </div>
+    </div>
+  </section>
 
-    <!-- CTA -->
-    <section class="scene" id="scene3">
-      <div class="cta">
-        <h2>Pronto a rivoluzionare le tue email?</h2>
-        <a href="#" class="btn">Inizia ora</a>
-      </div>
-    </section>
-  </div>
+  <!-- CTA FINALE -->
+  <section class="cta-section">
+    <h2 data-animate>Semplifica il tuo workflow con eleganza</h2>
+    <p data-animate>AImail è l'assistente AI premium per professionisti esigenti: efficienza, design intuitivo e risultati straordinari.</p>
+    <a href="https://cobrapassa.github.io/aimail-landing/" class="cta" data-animate>Scarica AImail Ora</a>
+  </section>
 
   <script>
-    const scenes = document.querySelectorAll('.scene');
-    let current = 0;
-    let isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-    
-    function showScene(i) {
-      scenes.forEach((s, idx) => {
-        s.classList.remove('active', 'prev');
-        if (idx === i) s.classList.add('active');
-        else if (idx === (i - 1 + scenes.length) % scenes.length) s.classList.add('prev');
+    const animatedEls = document.querySelectorAll("[data-animate]");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("visible");
+        }
       });
-    }
+    }, {threshold: 0.2});
 
-    if (isDesktop) {
-      document.body.classList.add('carousel-active');
-      setInterval(() => {
-        current = (current + 1) % scenes.length;
-        showScene(current);
-      }, 7000);
-    }
-
-    window.addEventListener('resize', () => {
-      isDesktop = window.matchMedia('(min-width: 1024px)').matches;
-      if (isDesktop) {
-        document.body.classList.add('carousel-active');
-        showScene(current);
-      } else {
-        document.body.classList.remove('carousel-active');
-        scenes.forEach(s => s.classList.add('active'));
-      }
-    });
+    animatedEls.forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
