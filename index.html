@@ -14,20 +14,21 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .container {
             position: relative;
             width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16/9;
+            max-width: 960px;
+            min-height: 60vh;
             background: linear-gradient(135deg, #1f2937, #111827);
             border-radius: 12px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
             overflow: hidden;
+            margin: 1rem;
         }
 
         .scene {
@@ -43,7 +44,7 @@
             text-align: center;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            padding: 20px;
+            padding: 1rem;
         }
 
         .scene.active {
@@ -52,65 +53,146 @@
 
         .content {
             background: rgba(31, 41, 55, 0.9);
-            padding: 30px;
+            padding: 2rem;
             border-radius: 10px;
+            width: 90%;
             max-width: 80%;
         }
 
         .title {
-            font-size: 32px;
+            font-size: 2rem;
             font-weight: bold;
             color: #60a5fa;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
         .subtitle {
-            font-size: 18px;
+            font-size: 1.1rem;
             color: #d1d5db;
             line-height: 1.5;
-            max-width: 70%;
+            max-width: 85%;
             margin: 0 auto;
         }
 
         .feature-item {
             display: flex;
-            align-items: center;
-            margin: 15px 0;
+            align-items: flex-start;
+            margin: 1rem 0;
             text-align: left;
         }
 
         .feature-icon {
-            font-size: 24px;
-            margin-right: 15px;
+            font-size: 1.5rem;
+            margin-right: 1rem;
             color: #34d399;
         }
 
         .feature-text {
-            font-size: 18px;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #e5e7eb;
         }
 
         .feature-desc {
-            font-size: 14px;
+            font-size: 0.9rem;
             color: #9ca3af;
         }
 
         .cta-button {
             display: inline-block;
-            padding: 12px 30px;
+            padding: 0.8rem 2rem;
             background: #34d399;
             color: #ffffff;
             border-radius: 25px;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 1rem;
             text-decoration: none;
-            margin-top: 20px;
+            margin-top: 1.5rem;
             transition: background 0.3s ease;
         }
 
         .cta-button:hover {
             background: #10b981;
+        }
+
+        /* Media Queries per dispositivi mobili */
+        @media (max-width: 768px) {
+            .container {
+                min-height: 80vh;
+                margin: 0.5rem;
+            }
+
+            .content {
+                padding: 1.5rem;
+                width: 95%;
+            }
+
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+                max-width: 90%;
+            }
+
+            .feature-item {
+                margin: 0.8rem 0;
+            }
+
+            .feature-icon {
+                font-size: 1.2rem;
+                margin-right: 0.8rem;
+            }
+
+            .feature-text {
+                font-size: 1rem;
+            }
+
+            .feature-desc {
+                font-size: 0.8rem;
+            }
+
+            .cta-button {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                min-height: 90vh;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .title {
+                font-size: 1.2rem;
+            }
+
+            .subtitle {
+                font-size: 0.8rem;
+            }
+
+            .feature-icon {
+                font-size: 1rem;
+            }
+
+            .feature-text {
+                font-size: 0.9rem;
+            }
+
+            .feature-desc {
+                font-size: 0.7rem;
+            }
+
+            .cta-button {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
