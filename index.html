@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AImail: Assistente AI Avanzato per Email</title>
-  <meta name="description" content="AImail: l'assistente AI che rivoluziona la tua gestione email.">
+  <meta name="description" content="Scopri AImail, l'assistente AI che rivoluziona la gestione delle email con automazione intelligente, analisi avanzate e template personalizzati.">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-E8V3YZ6Q5K"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -14,361 +15,529 @@
     gtag('js', new Date());
     gtag('config', 'G-E8V3YZ6Q5K');
   </script>
+  <!-- Fine Google Analytics -->
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --accent: #60a5fa;
-      --accent-2: #34d399;
-      --bg-1: #071025;
-      --bg-2: #0f172a;
-      --card-bg: rgba(255,255,255,0.03);
-      --glass-border: rgba(255,255,255,0.04);
-      --muted: #94a3b8;
-      --text: #e6eef8;
-      --vh: 1vh;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
-      color:var(--text);
-      background: linear-gradient(180deg,var(--bg-1),var(--bg-2));
-      -webkit-text-size-adjust:100%;
-      -webkit-tap-highlight-color:transparent;
-      overflow-x:hidden;
-      scroll-behavior:smooth;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html,body { height: 100%; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    .page{ width:100%; max-width:1200px; margin:0 auto; padding:20px }
-    section{ width:100%; min-height: calc(var(--vh) * 100); display:flex; align-items:center; justify-content:center; padding: clamp(28px,4vw,64px) 20px; position:relative; }
-    .container{ width:100%; max-width:1100px; margin:0 auto; }
-
-    /* animated bg */
-    .bg-animated{ position:fixed; inset:0; z-index:-2; pointer-events:none; background: conic-gradient(from 180deg, rgba(96,165,250,0.06), rgba(52,211,153,0.05), rgba(96,165,250,0.04)); opacity:0.9; mix-blend-mode:screen; animation: rotateBg 24s linear infinite; transform-origin:center; filter: blur(60px) saturate(1.1); }
-    @keyframes rotateBg { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
-    @media (prefers-reduced-motion: reduce){ .bg-animated{ animation:none } }
+    section {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.5rem;
+      scroll-snap-align: start;
+      flex-direction: column;
+      text-align: center;
+    }
 
     /* HERO */
-    .hero{ text-align:center; display:flex; flex-direction:column; gap:16px; align-items:center; justify-content:center }
-    .hero-card{ width:100%; background:var(--card-bg); border-radius:18px; padding: clamp(20px,4vw,48px); box-shadow: 0 10px 40px rgba(2,6,23,0.6); backdrop-filter: blur(10px); border:1px solid var(--glass-border); position:relative; overflow:hidden; }
-    /* ICON ABOVE TITLE: envelope + circuit (AI + mail) */
-    .hero-icon { width:96px; height:96px; margin: 0 auto 8px; display:block; filter: drop-shadow(0 8px 20px rgba(96,165,250,0.12)); transition: transform .35s ease; }
-    .hero-card:hover .hero-icon { transform: translateY(-6px) scale(1.02); }
-    .hero-title{ font-size:clamp(2rem,5.5vw,3.6rem); color:var(--accent); text-shadow:0 0 20px rgba(96,165,250,0.6); line-height:1.02; margin-bottom:6px; }
-    .hero-sub{ color:var(--muted); font-size:clamp(1rem,2.2vw,1.25rem); max-width:900px; margin:0 auto 1rem; }
-    .hero-cta{ display:inline-block; padding:14px 28px; border-radius:999px; color:white; font-weight:700; text-decoration:none; background:linear-gradient(135deg,var(--accent-2),#10b981); box-shadow:0 10px 30px rgba(52,211,153,0.14); transition:transform .22s ease,box-shadow .22s ease; }
-    .hero-cta:hover{ transform:translateY(-3px); box-shadow:0 16px 45px rgba(52,211,153,0.22); }
+    .hero {
+      background: radial-gradient(circle at top left, #1e293b, #0f172a);
+      gap: 1.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 700;
+      color: #60a5fa;
+      text-shadow: 0 0 25px rgba(96, 165, 250, 0.8);
+    }
+    .hero p {
+      max-width: 650px;
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: #cbd5e1;
+      margin: 0 auto;
+    }
+    .hero .cta {
+      margin-top: 2rem;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg,#34d399,#10b981);
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 8px 25px rgba(52,211,153,0.4);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .hero .cta:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(52,211,153,0.6);
+    }
 
-    /* FEATURES */
-    .features{ display:flex; flex-direction:column; gap:28px; width:100%; align-items:center; text-align:center; }
-    .features h2{ color:var(--accent); font-size:clamp(1.6rem,4.2vw,2.6rem); text-shadow:0 0 18px rgba(96,165,250,0.45); margin-bottom:4px; }
-    .features-grid{ display:grid; grid-template-columns:1fr; gap:20px; width:100%; }
-    @media(min-width:768px){ .features-grid{ grid-template-columns: repeat(3,1fr); } }
-    .feature-card{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:14px; padding:20px; border:1px solid var(--glass-border); backdrop-filter: blur(8px); box-shadow: 0 8px 30px rgba(0,0,0,0.45); transition: transform .28s cubic-bezier(.2,.9,.3,1), box-shadow .28s ease; overflow:hidden; will-change:transform; }
-    .feature-card:hover{ transform: translateY(-8px); box-shadow: 0 18px 50px rgba(2,6,23,0.7); }
-    .feature-icon{ width:56px; height:56px; margin-bottom:12px; fill:var(--accent-2); filter: drop-shadow(0 6px 18px rgba(52,211,153,0.18)); transition: transform .28s ease; }
-    .feature-title{ font-weight:600; font-size:1.125rem; color:var(--text); margin-bottom:6px; }
-    .feature-desc{ color:var(--muted); font-size:0.98rem; }
+    /* Features */
+    .features {
+      background: linear-gradient(135deg,#0f172a,#1e293b);
+    }
+    .features h2 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      margin-bottom: 3rem;
+      color: #60a5fa;
+      text-shadow: 0 0 20px rgba(96,165,250,0.6);
+    }
+    .features-grid {
+      display: grid;
+      gap: 2rem;
+      width: 100%;
+      max-width: 1000px;
+    }
+    @media(min-width: 768px) {
+      .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .feature-card {
+      background: rgba(30,41,59,0.7);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(96,165,250,0.4);
+    }
+    .feature-icon {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 1rem;
+      fill: #34d399;
+      filter: drop-shadow(0 0 6px rgba(52,211,153,0.6));
+    }
+    .feature-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: .5rem;
+      color: #e2e8f0;
+    }
+    .feature-desc {
+      font-size: 1rem;
+      color: #94a3b8;
+    }
 
-    /* COMPARISON */
-    .comparison{ width:100%; display:flex; justify-content:center; }
-    .comparison-grid{ width:100%; display:grid; grid-template-columns:1fr; gap:20px; }
-    @media(min-width:900px){ .comparison-grid{ grid-template-columns:1fr 1fr; column-gap:28px } }
-    .comparison-card{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:20px; border-radius:14px; border:1px solid var(--glass-border); backdrop-filter: blur(8px); box-shadow:0 8px 30px rgba(0,0,0,0.45); }
-    .comparison-header{ display:flex; align-items:center; gap:12px; margin-bottom:12px; }
-    .comparison-icon{ width:44px; height:44px; fill:var(--accent); flex-shrink:0; }
-    .comparison-title{ font-size:1.1rem; font-weight:700; color:var(--text); }
-    .comparison-list{ list-style:none; padding:0; margin:8px 0 0; display:flex; flex-direction:column; gap:12px; color:var(--muted); }
-    .comparison-list li{ display:flex; justify-content:space-between; gap:12px; align-items:center; font-size:0.98rem; }
-    .comparison-list .check{ color:var(--accent-2); font-weight:700; }
-    .comparison-list .xmark{ color:#f87171; font-weight:700; }
+    /* Comparison */
+    .comparison {
+      background: linear-gradient(135deg,#1e293b,#0f172a);
+    }
+    .comparison h2 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      color: #34d399;
+      margin-bottom: 2rem;
+    }
+    .comparison-grid {
+      display: grid;
+      gap: 2rem;
+      max-width: 1000px;
+      width: 100%;
+    }
+    @media(min-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .comparison-box {
+      background: rgba(30,41,59,0.7);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      backdrop-filter: blur(10px);
+      text-align: left;
+    }
+    .comparison-box h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .comparison-item {
+      margin: .8rem 0;
+    }
+    .comparison-item span {
+      font-weight: 600;
+      color: #10b981;
+    }
 
     /* CTA */
-    .cta-section{ text-align:center; }
-    .cta-card{ background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:16px; padding:28px; border:1px solid var(--glass-border); backdrop-filter:blur(8px); box-shadow: 0 12px 40px rgba(0,0,0,0.6); }
-    .cta-title{ color:var(--accent-2); font-size:clamp(1.6rem,4.6vw,2.8rem); margin-bottom:8px; text-shadow:0 0 18px rgba(52,211,153,0.35); }
-    .cta-desc{ color:var(--muted); font-size:1rem; max-width:780px; margin:0 auto 16px; }
-    .cta-cta{ display:inline-block; padding:14px 28px; border-radius:999px; background:linear-gradient(135deg,var(--accent),#3b82f6); color:white; font-weight:700; text-decoration:none; box-shadow:0 12px 36px rgba(96,165,250,0.14); }
-
-    /* Notifications */
-    .notif-wrapper{ position: fixed; z-index:60; right:18px; bottom:18px; display:flex; flex-direction:column; gap:12px; align-items:flex-end; pointer-events:none; }
-    @media(max-width:880px){ .notif-wrapper{ left:50%; right:auto; transform:translateX(-50%); align-items:center; } }
-    .notif{ pointer-events:auto; background: linear-gradient(180deg, rgba(18,27,38,0.95), rgba(13,20,30,0.95)); color:var(--text); padding:12px 14px; border-radius:12px; box-shadow:0 12px 30px rgba(0,0,0,0.6); border:1px solid var(--glass-border); display:flex; gap:10px; align-items:center; min-width:220px; max-width:320px; transform:translateY(16px); opacity:0; transition: transform .45s cubic-bezier(.2,.9,.3,1), opacity .45s ease; }
-    .notif.show{ transform:translateY(0); opacity:1; }
-    .notif svg.avatar{ width:42px; height:42px; flex-shrink:0; fill:var(--accent-2); filter:drop-shadow(0 4px 12px rgba(52,211,153,0.14)); }
-    .notif .body{ display:flex; flex-direction:column; gap:2px; font-size:0.95rem; }
-    .notif .who{ font-weight:700; color:var(--text); }
-    .notif .what{ color:var(--muted); font-size:0.9rem; }
-
-    [data-animate]{ opacity:0; transform:translateY(18px); transition: all .7s cubic-bezier(.2,.9,.3,1); }
-    [data-animate].visible{ opacity:1; transform:none; }
-
-    @media (prefers-reduced-motion: reduce){
-      .bg-animated{ display:none }
-      .feature-card, .hero-illustration, .notif { transition:none !important; animation:none !important; }
+    .cta-section {
+      background: linear-gradient(135deg,#1e293b,#0f172a);
+      gap: 1.5rem;
     }
+    .cta-section h2 {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 700;
+      color: #34d399;
+      text-shadow: 0 0 25px rgba(52,211,153,0.8);
+    }
+    .cta-section p {
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.2rem;
+      color: #cbd5e1;
+    }
+    .cta-section .cta {
+      margin-top: 2rem;
+      padding: 1rem 2.8rem;
+      background: linear-gradient(135deg,#60a5fa,#3b82f6);
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      box-shadow: 0 8px 25px rgba(96,165,250,0.4);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .cta-section .cta:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 35px rgba(96,165,250,0.6);
+    }
+
+    /* Notifiche - layout esterno e bordo gradiente */
+    /* .notification (contenitore esterno con bordo sfumato) + .notification-inner (box interno con background) */
+    .notification {
+      position: fixed;
+      z-index: 9999;
+      padding: 2px; /* spessore bordo finto con il gradiente */
+      border-radius: 14px;
+      background: linear-gradient(135deg, #34d399, #60a5fa);
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform .5s cubic-bezier(.16,1,.3,1), opacity .45s ease;
+      display: flex;
+      align-items: center;
+      max-width: 320px;
+      min-width: 200px;
+      pointer-events: auto;
+    }
+
+    /* posizionamento (desktop / mobile) */
+    @media(min-width: 769px) {
+      .notification { bottom: 20px; right: 20px; }
+    }
+    @media(max-width: 768px) {
+      .notification { top: 70px; left: 15px; right: 15px; max-width: calc(100% - 30px); }
+    }
+
+    .notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .notification-inner {
+      background: linear-gradient(180deg, rgba(15,23,42,0.95), rgba(17,24,39,0.95));
+      border-radius: 12px;
+      width: 100%;
+      padding: .8rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .notification-content {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+
+    .notification svg {
+      width: 36px;
+      height: 36px;
+      fill: #60a5fa;
+      flex-shrink: 0;
+      filter: drop-shadow(0 6px 18px rgba(96,165,250,0.12)) drop-shadow(0 0 8px rgba(52,211,153,0.06));
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border-radius: 50%;
+      padding: 6px;
+    }
+
+    .notification .text {
+      text-align: left;
+      min-width: 0;
+    }
+
+    .notification .text .line1 {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 600;
+      font-size: .95rem;
+      color: #e6eefc;
+    }
+
+    .notification .text .line2 {
+      display: block;
+      font-size: .82rem;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    /* gradient text per nome */
+    .name-gradient {
+      background: linear-gradient(90deg, #34d399, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    /* close button */
+    .notification .close-btn {
+      background: transparent;
+      border: none;
+      color: rgba(226,232,240,0.7);
+      font-size: 1rem;
+      padding: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-left: 6px;
+      border-radius: 8px;
+      transition: background .18s ease;
+    }
+    .notification .close-btn:hover {
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* subtle entrance rotation for a more dynamic feel */
+    .notification.show { transform: translateY(0) rotate(0.2deg); }
+
+    /* mobile tweaks */
+    @media(max-width: 480px) {
+      .notification svg { width: 30px; height: 30px; padding: 4px; }
+      .notification-inner { padding: .6rem .8rem; }
+      .notification .line1 { font-size: .9rem; }
+      .notification .line2 { font-size: .78rem; }
+    }
+
+    /* Ottimizzazione mobile glass */
+    @media(max-width: 768px) {
+      .feature-card,
+      .comparison-box {
+        backdrop-filter: blur(4px);
+        background: rgba(30,41,59,0.85);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      }
+    }
+
+    /* Animazioni on scroll (aggiungiamo delay progressivo) */
+    [data-animate] {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(.16,1,.3,1);
+    }
+    [data-animate].visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
   </style>
 </head>
 <body>
-  <div class="bg-animated" aria-hidden="true"></div>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Rivoluziona la tua gestione Email</h1>
+    <p>AImail integra intelligenza artificiale avanzata per automatizzare risposte, ottimizzare i flussi di lavoro e aumentare la produttività.</p>
+    <a href="#features" class="cta">Scopri di più</a>
+  </section>
 
-  <div class="page">
-    <div class="container">
-      <!-- HERO -->
-      <section class="hero" id="hero">
-        <div class="hero-card" data-animate>
-          <!-- NEW HERO ICON: envelope with circuit lines (AI + mail) -->
-          <svg class="hero-icon" viewBox="0 0 64 64" aria-hidden="true" role="img">
-            <defs>
-              <linearGradient id="hg" x1="0" x2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#60a5fa"/></linearGradient>
-            </defs>
-            <rect x="6" y="10" width="52" height="36" rx="6" fill="url(#hg)" opacity="0.12"></rect>
-            <path d="M10 18l22 14 22-14" fill="none" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <g stroke="#34d399" stroke-width="1.4" fill="none">
-              <circle cx="44" cy="22" r="1.8" />
-              <path d="M46.5 22.5l3 1.6" stroke-linecap="round"/>
-              <path d="M43 24c0 0.8-1 1.2-1.8 0.8" stroke-linecap="round"/>
-            </g>
-          </svg>
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <h2 data-animate>Funzionalità principali</h2>
+    <div class="features-grid">
+      <div class="feature-card" data-animate>
+        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4z" fill="none"/><path d="M20 4H4v16h16V4zm-2 4l-6 5-6-5V6l6 5 6-5v2z"/></svg>
+        <h3 class="feature-title">Risposte Automatiche</h3>
+        <p class="feature-desc">Genera risposte personalizzate e contestuali in un attimo.</p>
+      </div>
+      <div class="feature-card" data-animate>
+        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 14H6v-2h4v2zm8 0h-6v-2h6v2z"/></svg>
+        <h3 class="feature-title">Template & Cronologia</h3>
+        <p class="feature-desc">Organizza template dinamici e accedi alla cronologia intelligente.</p>
+      </div>
+      <div class="feature-card" data-animate>
+        <svg class="feature-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 13h2v-2H3v2zm4 0h14v-2H7v2z"/></svg>
+        <h3 class="feature-title">Analisi Performance</h3>
+        <p class="feature-desc">Ottieni insight su engagement, tempi e produttività.</p>
+      </div>
+    </div>
+  </section>
 
-          <h1 class="hero-title">Rivoluziona la tua gestione Email</h1>
-          <p class="hero-sub">AImail integra intelligenza artificiale avanzata per automatizzare risposte, ottimizzare i flussi di lavoro e aumentare la produttività.</p>
-          <div class="center"><a class="hero-cta" href="#features">Scopri di più</a></div>
-        </div>
-      </section>
+  <!-- COMPARISON -->
+  <section class="comparison">
+    <h2 data-animate>Umano vs AImail</h2>
+    <div class="comparison-grid">
+      <div class="comparison-box" data-animate>
+        <h3>Assistente Umano</h3>
+        <p class="comparison-item">⏱ Velocità: Risposte lente</p>
+        <p class="comparison-item">📈 Qualità: Variabile, soggetta a errori</p>
+        <p class="comparison-item">📊 Scalabilità: 1 cliente alla volta</p>
+        <p class="comparison-item">💰 Costo: Ricorrente mensile</p>
+      </div>
+      <div class="comparison-box" data-animate>
+        <h3>AImail 🚀</h3>
+        <p class="comparison-item">⏱ Velocità: <span>Risposte immediate ⚡</span></p>
+        <p class="comparison-item">📈 Qualità: <span>Consistente, precisa e in evoluzione</span></p>
+        <p class="comparison-item">📊 Scalabilità: <span>Infiniti clienti contemporaneamente</span></p>
+        <p class="comparison-item">💰 Costo: <span>Una sola volta ✅</span></p>
+      </div>
+    </div>
+  </section>
 
-      <!-- FEATURES -->
-      <section class="features" id="features">
-        <div class="container" style="max-width:1100px;">
-          <h2 data-animate>Funzionalità principali</h2>
-          <div class="features-grid" role="list">
-            <!-- Auto replies (reply + bolt) -->
-            <div class="feature-card" data-animate role="listitem" data-feature="auto-replies">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 0-.9-3.8L19 6l-4 4 4 4 1.1-1.1c.3-.9.9-1.9.9-1.4zM3 7v8a2 2 0 0 0 2 2h6v-2H5V7H3zM13 7h6a2 2 0 0 1 2 2v.2l-2-2-6 6V7z"/></svg>
-              <div class="feature-title">Risposte Automatiche</div>
-              <div class="feature-desc">Genera risposte personalizzate e contestuali in un attimo.</div>
-            </div>
+  <!-- CTA FINALE -->
+  <section class="cta-section">
+    <h2 data-animate>Semplifica il tuo workflow con eleganza</h2>
+    <p data-animate>AImail è l'assistente AI premium per professionisti esigenti: efficienza, design intuitivo e risultati straordinari.</p>
+    <a href="https://cobrapassa.github.io/aimail-landing/" class="cta" data-animate>Scopri AImail Ora</a>
+  </section>
 
-            <!-- Templates (stack of documents) -->
-            <div class="feature-card" data-animate role="listitem" data-feature="templates">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h12v2H6v12H4zM8 2h10v14h-2V4H8z" /></svg>
-              <div class="feature-title">Template & Cronologia</div>
-              <div class="feature-desc">Organizza template dinamici e accedi alla cronologia intelligente.</div>
-            </div>
-
-            <!-- Analytics (bar chart) -->
-            <div class="feature-card" data-animate role="listitem" data-feature="analytics">
-              <svg class="feature-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v18h2V3H5zm6 6v12h2V9h-2zm6-4v16h2V5h-2z"/></svg>
-              <div class="feature-title">Analisi Performance</div>
-              <div class="feature-desc">Ottieni insight su engagement, tempi e produttività.</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- COMPARISON -->
-      <section class="comparison" id="comparison">
-        <div class="container">
-          <h2 data-animate>Umano vs AImail</h2>
-          <div class="comparison-grid" data-animate>
-            <!-- Human -->
-            <div class="comparison-card human" aria-hidden="false">
-              <div class="comparison-header">
-                <!-- human silhouette -->
-                <svg class="comparison-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8V22h19.2v-2.8c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-                <div class="comparison-title">Assistente Umano</div>
-              </div>
-              <ul class="comparison-list">
-                <li><span>Disponibilità</span><span class="xmark">Orari limitati</span></li>
-                <li><span>Velocità</span><span class="xmark">Risposte lente</span></li>
-                <li><span>Qualità</span><span class="xmark">Variabile, soggetta a errori</span></li>
-                <li><span>Scalabilità</span><span class="xmark">Uno alla volta</span></li>
-                <li><span>Costo</span><span class="xmark">Ricorrente ogni mese 💸</span></li>
-              </ul>
-            </div>
-
-            <!-- AImail -->
-            <div class="comparison-card aimail" aria-hidden="false">
-              <div class="comparison-header">
-                <!-- robot head icon -->
-                <svg class="comparison-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8 2 4.8 4 4 7v6c0 3 3 5 8 5s8-2 8-5V7c-.8-3-4-5-8-5zm-3 7a1 1 0 110-2 1 1 0 010 2zm6 0a1 1 0 110-2 1 1 0 010 2z" /></svg>
-                <div class="comparison-title">AImail</div>
-              </div>
-              <ul class="comparison-list">
-                <li><span>Disponibilità</span><span class="check">Sempre attivo 24/7 🚀</span></li>
-                <li><span>Velocità</span><span class="check">Risposte immediate ⚡</span></li>
-                <li><span>Qualità</span><span class="check">Consistente, precisa e in evoluzione</span></li>
-                <li><span>Scalabilità</span><span class="check">Infiniti clienti contemporaneamente</span></li>
-                <li><span>Costo</span><span class="check">Una sola volta ✔️</span></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CTA -->
-      <section class="cta-section" id="cta">
-        <div class="container">
-          <div class="cta-card" data-animate>
-            <div class="cta-title">Semplifica il tuo workflow con eleganza</div>
-            <div class="cta-desc">AImail è l'assistente AI premium per professionisti esigenti: efficienza, design intuitivo e risultati straordinari.</div>
-            <a class="cta-cta" href="https://cobrapassa.github.io/aimail-landing/">Scopri AImail Ora</a>
-          </div>
-        </div>
-      </section>
+  <!-- Notifiche dinamiche (container esterno con bordo sfumato) -->
+  <!-- role + aria-live per screen reader -->
+  <div id="notification" class="notification" role="status" aria-live="polite" aria-atomic="true" style="display:none;">
+    <div class="notification-inner" id="notification-inner">
+      <!-- contenuto iniettato via JS -->
     </div>
   </div>
 
-  <!-- Notifications wrapper -->
-  <div class="notif-wrapper" aria-live="polite" aria-atomic="true"></div>
-
   <script>
-  ;(function(){
-    // --vh mobile fix
-    function setVh(){
-      document.documentElement.style.setProperty('--vh', window.innerHeight * 0.01 + 'px');
-    }
-    setVh();
-    window.addEventListener('resize', () => setVh());
-
-    // on-scroll animations
-    const animEls = document.querySelectorAll('[data-animate]');
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.18 });
-    animEls.forEach(el => io.observe(el));
-
-    // pointer micro-interactions on non-touch devices
-    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
-    if(!isTouch){
-      document.querySelectorAll('.feature-card').forEach(card => {
-        card.addEventListener('pointermove', (ev) => {
-          const r = card.getBoundingClientRect();
-          const px = (ev.clientX - r.left) / r.width - 0.5;
-          const py = (ev.clientY - r.top) / r.height - 0.5;
-          const tx = px * 8;
-          const ty = py * 8;
-          card.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(1.015)`;
+    // Intersection observer con delay progressivo per data-animate
+    (function initScrollAnimations() {
+      const animatedEls = document.querySelectorAll("[data-animate]");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add("visible");
+            // una volta visibile, possiamo smettere di osservare
+            observer.unobserve(entry.target);
+          }
         });
-        card.addEventListener('pointerleave', () => card.style.transform = '');
+      }, {threshold: 0.18});
+      animatedEls.forEach((el, index) => {
+        el.style.transitionDelay = `${index * 0.12}s`;
+        observer.observe(el);
       });
-    }
+    })();
 
-    // dynamic background color shift (subtle)
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(!reduced){
-      let t = 0;
-      function animateGradient(){
-        t += 0.0022;
-        const h1 = 200 + Math.sin(t) * 12;
-        const h2 = 150 + Math.cos(t * 1.4) * 10;
-        document.documentElement.style.setProperty('--bg-1', `hsl(${h1} 20% 6%)`);
-        document.documentElement.style.setProperty('--bg-2', `hsl(${h2} 18% 8%)`);
-        requestAnimationFrame(animateGradient);
-      }
-      requestAnimationFrame(animateGradient);
-    }
+    /* -------------------------
+       Notifiche migliorate
+       ------------------------- */
 
-    /* ---------------- Notifications (social proof) ---------------- */
-    const NAMES = ['Marco R.','Lucia B.','Alessio P.','Giulia M.','Federico L.','Sara V.','Valerio T.','Claudia S.','Riccardo N.','Elena G.'];
-    const notifWrapper = document.querySelector('.notif-wrapper');
-    let shownCount = parseInt(sessionStorage.getItem('aimail_notif_count') || '0', 10);
+    const notificationRoot = document.getElementById('notification');
+    const notificationInner = document.getElementById('notification-inner');
 
-    // Create a single notif element and reuse for animation to avoid many DOM inserts
-    function createNotifEl(name){
-      const el = document.createElement('div');
-      el.className = 'notif';
-      el.setAttribute('role','status');
-      el.innerHTML = `
-        <svg class="avatar" viewBox="0 0 24 24" aria-hidden="true">
-          <!-- robot envelope avatar -->
-          <rect x="2" y="6" width="20" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.18"/>
-          <path d="M4 8l8 6 8-6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="6" cy="12" r="1" />
-        </svg>
-        <div class="body">
-          <div class="who">${name}</div>
-          <div class="what">ha attivato AImail</div>
+    const names = [
+      {name: "Luca P.", meta: "Milano — Freelance"},
+      {name: "Giulia C.", meta: "Roma — Marketing"},
+      {name: "Marco R.", meta: "Torino — Sales"},
+      {name: "Elena D.", meta: "Firenze — HR"},
+      {name: "Francesco P.", meta: "Bologna — CEO"},
+      {name: "Sara M.", meta: "Napoli — Project Manager"},
+      {name: "Davide C.", meta: "Verona — Support"},
+      {name: "Chiara P.", meta: "Palermo — Designer"},
+      {name: "Michele P.", meta: "Genova — E-commerce"}
+    ];
+
+    let notifyTimeout = null;
+    let hideTimeout = null;
+
+    function buildNotificationHTML(person) {
+      // Icon (user), message with gradient name, meta line, close button
+      return `
+        <div class="notification-content" aria-hidden="false">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="avatar icon">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
+          </svg>
+          <div class="text">
+            <span class="line1"><span class="name-gradient">${escapeHtml(person.name)}</span> ha attivato <strong>AImail</strong> 🚀</span>
+            <span class="line2">${escapeHtml(person.meta)}</span>
+          </div>
         </div>
+        <button class="close-btn" aria-label="Chiudi notifica">&times;</button>
       `;
-      return el;
     }
 
-    // Show a notification (non-invasive). Auto-hide and remove after animation.
-    function showNotif(name){
-      const el = createNotifEl(name);
-      notifWrapper.appendChild(el);
-      // slight stagger for smoother perception
-      requestAnimationFrame(()=> el.classList.add('show'));
-      // remove after 4.8s
-      setTimeout(() => {
-        el.classList.remove('show');
-        setTimeout(()=> el.remove(), 520);
-      }, 4800);
+    // escape semplice per evitare XSS se mai arrivi contenuto esterno
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
 
-    // Non-invasive logic: start showing either after 5s or after user scrolled 20%
-    let started = false;
-    function startNotifsIfReady(){
-      if(started) return;
-      // begin showing notifications every (8..18)s until max per session reached
-      started = true;
-      let attempts = 0;
-      const maxPerSession = 6;
-      const scheduleNext = () => {
-        if(shownCount >= maxPerSession) return;
-        // randomized interval 8s..18s
-        const interval = 8000 + Math.floor(Math.random() * 10000);
-        setTimeout(()=> {
-          // small probability check so not too predictable (0.7 chance)
-          if(Math.random() < 0.85){
-            const idx = Math.floor(Math.random() * NAMES.length);
-            showNotif(NAMES[idx]);
-            shownCount++;
-            sessionStorage.setItem('aimail_notif_count', String(shownCount));
-          }
-          attempts++;
-          if(attempts < 20 && shownCount < maxPerSession){
-            scheduleNext();
-          }
-        }, interval);
-      };
-      // show the very first one quickly to signal activity
-      setTimeout(()=> {
-        const idx = Math.floor(Math.random() * NAMES.length);
-        showNotif(NAMES[idx]);
-        shownCount++;
-        sessionStorage.setItem('aimail_notif_count', String(shownCount));
-        scheduleNext();
-      }, 1200);
-    }
+    function showNotificationOnce(person, displayMs = 4200) {
+      // pulisci timers correnti
+      if (notifyTimeout) { clearTimeout(notifyTimeout); notifyTimeout = null; }
+      if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
 
-    // Trigger conditions: either after 5s on page OR after user scrolls past 20% viewport
-    const waited = setTimeout(()=> { startNotifsIfReady(); }, 5000);
-    let scrollTriggered = false;
-    window.addEventListener('scroll', () => {
-      if(scrollTriggered) return;
-      if(window.scrollY > window.innerHeight * 0.2){
-        scrollTriggered = true;
-        clearTimeout(waited);
-        startNotifsIfReady();
+      notificationInner.innerHTML = buildNotificationHTML(person);
+      // mostra container (display none -> flex via style)
+      notificationRoot.style.display = 'flex';
+      // forza reflow per rendere sicuri le transizioni
+      void notificationRoot.offsetWidth;
+      notificationRoot.classList.add('show');
+
+      // aggiungi listener al close button
+      const closeBtn = notificationInner.querySelector('.close-btn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', hideNotificationImmediate);
       }
-    }, { passive: true });
 
-    // Respect reduced motion: disable showNotifs
-    if(reduced){
-      // clear any scheduled notifs
-      // (do nothing: startNotifsIfReady checks reduced? we prevented animation only)
+      // rimuovi dopo displayMs (fade out)
+      hideTimeout = setTimeout(() => {
+        notificationRoot.classList.remove('show');
+        // dopo la transizione, nascondi display per risparmiare spazio/evitare click accidentali
+        notifyTimeout = setTimeout(() => {
+          notificationRoot.style.display = 'none';
+        }, 520); // leggermente più lungo della transition per sicurezza
+      }, displayMs);
     }
 
-    // Cleanup on pagehide
-    window.addEventListener('pagehide', ()=> {
-      // nothing heavy to clean, sessionStorage persists counts
+    function hideNotificationImmediate() {
+      if (notifyTimeout) { clearTimeout(notifyTimeout); notifyTimeout = null; }
+      if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+      notificationRoot.classList.remove('show');
+      notificationRoot.style.display = 'none';
+    }
+
+    // mostra una notifica casuale ogni intervallo, con un piccolo jitter per sembrare più naturale
+    function startNotificationLoop(intervalMs = 15000) {
+      // mostra subito una notifica iniziale dopo 1.5s
+      setTimeout(() => {
+        const person = names[Math.floor(Math.random() * names.length)];
+        showNotificationOnce(person, 4200);
+      }, 1500);
+
+      setInterval(() => {
+        // jitter: -2s .. +2s
+        const jitter = (Math.random() * 4000) - 2000;
+        setTimeout(() => {
+          const person = names[Math.floor(Math.random() * names.length)];
+          showNotificationOnce(person, 4200);
+        }, Math.max(0, jitter));
+      }, intervalMs);
+    }
+
+    // avvia loop
+    startNotificationLoop(15000);
+
+    // Optional: chiudi on ESC
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') hideNotificationImmediate();
     });
 
-  })();
   </script>
 </body>
 </html>
