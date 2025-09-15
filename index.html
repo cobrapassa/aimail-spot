@@ -387,24 +387,106 @@
     }, {threshold: 0.2});
     animatedEls.forEach(el => observer.observe(el));
 
-    // Notifiche simulate
+    /***************
+     * Notifiche simulate (logica aggiornata per timing)
+     ***************/
     const notification = document.getElementById("notification");
-    const names = ["Luca P.", "Giulia C.", "Marco R.", "Elena D.", "Francesco P.", "Sara M.", "Davide C.", "Chiara P.", "Michele P."];
-    function showNotification() {
+    const names = ["Luca P.", "Giulia C.", "Marco R.", "Elena D.", "Francesco P.", "Sara M.", "Davide C.", "Chiara P.", "Michele P.", "Giorgio R.", "Carlo F.", "Jackson J."];
+
+    let hideTimeout = null;
+    let repeatingInterval = null;
+
+    function showNotificationOnce() {
+      // Scegli nome casuale
       const name = names[Math.floor(Math.random() * names.length)];
+
+      // Pulisci timeout precedente (evita rimozione precoce)
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
+      }
+
+      // Inietta contenuto
       notification.innerHTML = `
         <div class="notification-content">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="8" r="4"/>
             <path d="M4 20c0-4 4-6 8-6s8 2 8 6"/>
           </svg>
-          <span>${name} ha attivato AImail 🚀</span>
+          <span>${escapeHtml(name)} ha attivato AImail 🚀</span>
         </div>
       `;
+
+      // Mostra
       notification.classList.add("show");
-      setTimeout(() => notification.classList.remove("show"), 4000);
+
+      // Imposta rimozione dopo 4s
+      hideTimeout = setTimeout(() => {
+        notification.classList.remove("show");
+        hideTimeout = null;
+      }, 4000);
     }
-    setInterval(showNotification, 15000);
+
+    // semplice escape per sicurezza (anche se i nomi sono interni)
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Start con prime due notifiche ravvicinate, poi loop regolare con jitter
+    function startNotifications() {
+      const firstDelay = 500;              // 0.5s dalla pagina caricata
+      const secondDelayAfterFirst = 5000;  // 5s dopo la prima
+      const repeatingIntervalMs = 15000;   // ogni 15s dopo le prime due
+
+      // Pulisci eventuale interval precedente
+      if (repeatingInterval) {
+        clearInterval(repeatingInterval);
+        repeatingInterval = null;
+      }
+
+      // First -> Second -> Start interval
+      setTimeout(() => {
+        showNotificationOnce();
+
+        setTimeout(() => {
+          showNotificationOnce();
+
+          // Avvia loop regolare con jitter
+          repeatingInterval = setInterval(() => {
+            const jitter = (Math.random() * 4000) - 2000; // -2s..+2s
+            setTimeout(() => {
+              showNotificationOnce();
+            }, Math.max(0, jitter));
+          }, repeatingIntervalMs);
+
+        }, secondDelayAfterFirst);
+
+      }, firstDelay);
+    }
+
+    // Avvia notifiche al DOMContentLoaded per buon ordine
+    document.addEventListener('DOMContentLoaded', () => {
+      startNotifications();
+    });
+
+    // Pulisci timers quando si abbandona pagina per evitare memory leak
+    window.addEventListener('beforeunload', () => {
+      if (repeatingInterval) clearInterval(repeatingInterval);
+      if (hideTimeout) clearTimeout(hideTimeout);
+    });
+
+    // Optional: chiudi con ESC
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (hideTimeout) { clearTimeout(hideTimeout); hideTimeout = null; }
+        notification.classList.remove('show');
+      }
+    });
 
     // Typewriter Effect
     const words = ["Automazione", "Velocità", "AI"];
